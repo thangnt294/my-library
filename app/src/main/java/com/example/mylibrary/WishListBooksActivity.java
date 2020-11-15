@@ -31,7 +31,7 @@ public class WishListBooksActivity extends AppCompatActivity {
         wishListBooksRecView.setAdapter(wishListBooksRecViewAdapter);
         wishListBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        wishListBooksRecViewAdapter.setBookList(Utils.getInstance(this).getWishListBooks());
+        wishListBooksRecViewAdapter.setBookList(Utils.getWishListBooks());
     }
 
     @Override

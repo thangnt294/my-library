@@ -31,7 +31,7 @@ public class FinishedBooksActivity extends AppCompatActivity {
         finishedBooksRecView.setAdapter(finishedBooksRecViewAdapter);
         finishedBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        finishedBooksRecViewAdapter.setBookList(Utils.getInstance(this).getFinishedBooks());
+        finishedBooksRecViewAdapter.setBookList(Utils.getFinishedBooks());
     }
 
     @Override

@@ -25,13 +25,13 @@ import java.util.ArrayList;
 
 import static com.example.mylibrary.BookActivity.BOOK_ID_KEY;
 
-public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapter.ViewHolder> implements IBookCallback {
+public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapter.ViewHolder>{
 
     public static final String TAG = "BooksRecViewAdapter";
 
     private ArrayList<Book> bookList = new ArrayList<>();
-    private Context mContext;
-    private ActivityType parentActivity;
+    private final Context mContext;
+    private final ActivityType parentActivity;
 
     public BooksRecViewAdapter(Context mContext, ActivityType parentActivity) {
         this.mContext = mContext;
@@ -108,7 +108,7 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
 
                                     if (removedSuccessfully) {
                                         Toast.makeText(mContext, currentBook.getName() + " has been removed", Toast.LENGTH_SHORT).show();
-                                        notifyItemChanged(position);
+                                        notifyDataSetChanged();
                                     } else {
                                         Toast.makeText(mContext, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                                     }
@@ -128,13 +128,13 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
         boolean result = false;
 
         if (parentActivity.equals(ActivityType.ReadingBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromReadingBooks(currentBook);
+            result = Utils.removeFromReadingBooks(currentBook);
         } else if (parentActivity.equals(ActivityType.FinishedBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromFinishedBooks(currentBook);
+            result = Utils.removeFromFinishedBooks(currentBook);
         } else if (parentActivity.equals(ActivityType.FavoriteBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromFavoriteBooks(currentBook);
+            result = Utils.removeFromFavoriteBooks(currentBook);
         } else if (parentActivity.equals(ActivityType.WishListBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromWishListBooks(currentBook);
+            result = Utils.removeFromWishListBooks(currentBook);
         }
 
         return result;
@@ -142,11 +142,6 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
 
     public void setBookList(ArrayList<Book> bookList) {
         this.bookList = bookList;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void callback() {
         notifyDataSetChanged();
     }
 
