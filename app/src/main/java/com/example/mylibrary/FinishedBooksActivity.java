@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FinishedBooksActivity extends AppCompatActivity {
@@ -47,4 +48,5 @@ public class FinishedBooksActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
 }

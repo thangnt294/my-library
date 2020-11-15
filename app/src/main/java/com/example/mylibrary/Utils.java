@@ -17,40 +17,11 @@ public class Utils {
     private static final String READING_BOOKS_KEY = "reading_books";
     private static final String FAVORITE_BOOKS_KEY = "favorite_books";
 
-    private SharedPreferences sharedPreferences;
-    private static final Gson gson = new Gson();
-
     private static Utils instance;
 
     private Utils(Context context) {
-        sharedPreferences = context.getSharedPreferences("alternate_db", Context.MODE_PRIVATE);
 
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        if (getAllBooks() == null) {
-            initData();
-        }
-
-        if (getReadingBooks() == null) {
-            editor.putString(READING_BOOKS_KEY, gson.toJson(new ArrayList<Book>()));
-            editor.commit();
-        }
-
-        if (getWishListBooks() == null) {
-            editor.putString(WISH_LIST_BOOKS_KEY, gson.toJson(new ArrayList<Book>()));
-            editor.commit();
-        }
-
-        if (getFinishedBooks() == null) {
-            editor.putString(FINISHED_BOOKS_KEY, gson.toJson(new ArrayList<Book>()));
-            editor.commit();
-        }
-
-        if (getFavoriteBooks() == null) {
-            editor.putString(FAVORITE_BOOKS_KEY, gson.toJson(new ArrayList<Book>()));
-            editor.commit();
-        }
+        initData();
 
     }
 
@@ -61,14 +32,9 @@ public class Utils {
         books.add(new Book(2, "The myth of Sisyphus", "Albert Camus", 250, "https://m.media-amazon.com/images/I/41UIPIw6v0L.jpg",
                 "One of the most influential works of this century.", "In The Myth of Sisyphus Camus elucidates this concept of the absurd. The absurd comes with the realization that the world is not rational: “At this point of his effort man stands face to face with the irrational. He feels within him his longing for happiness and for reason."));
         books.add(new Book(3, "Moby Dick", "Herman MelVille", 927, "https://kbimages1-a.akamaihd.net/ae25aaf3-7841-4b90-a175-8e55ca639064/1200/1200/False/moby-dick-222.jpg",
-                "The book of this century", "Moby-Dick is about everything, a bible written in scrimshaw, an adventure spun in allegory, a taxonomy tripping on acid. It seems to exist outside its own time, much like Don Quixote and Tristram Shandy, the poetry of Emily Dickinson. It is so broad and so deep as to accept any interpretation while also staring back and mocking this man-made desire toward interpretation."));
+                "The book of this century.", "Moby-Dick is about everything, a bible written in scrimshaw, an adventure spun in allegory, a taxonomy tripping on acid. It seems to exist outside its own time, much like Don Quixote and Tristram Shandy, the poetry of Emily Dickinson. It is so broad and so deep as to accept any interpretation while also staring back and mocking this man-made desire toward interpretation."));
         books.add(new Book(4, "To kill a mockingbird", "Harper Lee", 281, "https://images-na.ssl-images-amazon.com/images/I/81gepf1eMqL.jpg",
-                "A classic of modern American literature", "Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos."));
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(ALL_BOOKS_KEY);
-        editor.putString(ALL_BOOKS_KEY, gson.toJson(books));
-        editor.commit();
+                "A classic of modern American literature.", "Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos."));
 
     }
 

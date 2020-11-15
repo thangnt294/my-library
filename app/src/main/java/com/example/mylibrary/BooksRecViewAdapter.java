@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import static com.example.mylibrary.BookActivity.BOOK_ID_KEY;
 
-public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapter.ViewHolder> {
+public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapter.ViewHolder> implements IBookCallback {
 
     public static final String TAG = "BooksRecViewAdapter";
 
@@ -142,6 +142,11 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
 
     public void setBookList(ArrayList<Book> bookList) {
         this.bookList = bookList;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void callback() {
         notifyDataSetChanged();
     }
 

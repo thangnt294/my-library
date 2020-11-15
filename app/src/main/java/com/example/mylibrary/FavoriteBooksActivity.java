@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FavoriteBooksActivity extends AppCompatActivity {
@@ -31,7 +32,10 @@ public class FavoriteBooksActivity extends AppCompatActivity {
         favoriteBooksRecView.setAdapter(favoriteBooksRecViewAdapter);
         favoriteBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        favoriteBooksRecViewAdapter.setBookList(Utils.getInstance(this).getFavoriteBooks());
+        ArrayList<Book> newBookList = Utils.getInstance(this).getFavoriteBooks();
+        favoriteBooksRecViewAdapter.setBookList(newBookList);
+        favoriteBooksRecViewAdapter.callback();
+
     }
 
     @Override
@@ -48,4 +52,5 @@ public class FavoriteBooksActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
 }

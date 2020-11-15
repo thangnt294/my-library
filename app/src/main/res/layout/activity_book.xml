@@ -134,7 +134,7 @@
 
             <TextView
                 android:id="@+id/txtLongDescInfo"
-                android:layout_width="wrap_content"
+                android:layout_width="375dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/description_demo"
@@ -168,6 +168,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_begin="116dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="19dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
