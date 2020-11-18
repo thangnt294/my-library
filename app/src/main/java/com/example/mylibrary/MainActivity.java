@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btnAllBooks, btnReadingBooks, btnFinishedBooks, btnFavoriteBooks, btnWishList, btnAbout;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
              public void onClick(View v) {
                  AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                  builder.setTitle(getString(R.string.app_name))
-                         .setMessage("Developed by Nguyen Toan Thang. Check out my github: ")
+                         .setMessage("Developed by Nguyen Toan Thang. Check out my github!")
                          .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                              @Override
                              public void onClick(DialogInterface dialog, int which) {

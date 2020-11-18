@@ -11,14 +11,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookManagement">
-        <activity android:name="com.example.mylibrary.WebsiteActivity" />
-        <activity android:name="com.example.mylibrary.FavoriteBooksActivity" android:label="@string/favorite_books"/>
-        <activity android:name="com.example.mylibrary.ReadingBooksActivity" android:label="@string/reading_books"/>
-        <activity android:name="com.example.mylibrary.WishListBooksActivity" android:label="@string/wish_list"/>
-        <activity android:name="com.example.mylibrary.FinishedBooksActivity" android:label="@string/finished_books"/>
-        <activity android:name="com.example.mylibrary.BookActivity" android:label="@string/book_details"/>
-        <activity android:name="com.example.mylibrary.AllBooksActivity" android:label="@string/all_books"/>
-        <activity android:name="com.example.mylibrary.MainActivity">
+        <activity android:name=".AddBookActivity"></activity>
+        <activity android:name=".WebsiteActivity" />
+        <activity
+            android:name=".FavoriteBooksActivity"
+            android:label="@string/favorite_books" />
+        <activity
+            android:name=".ReadingBooksActivity"
+            android:label="@string/reading_books" />
+        <activity
+            android:name=".WishListBooksActivity"
+            android:label="@string/wish_list" />
+        <activity
+            android:name=".FinishedBooksActivity"
+            android:label="@string/finished_books" />
+        <activity
+            android:name=".BookActivity"
+            android:label="@string/book_details" />
+        <activity
+            android:name=".AllBooksActivity"
+            android:label="@string/all_books" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
