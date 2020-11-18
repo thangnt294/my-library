@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                              @Override
                              public void onClick(DialogInterface dialog, int which) {
                                  Intent intent = new Intent(MainActivity.this, WebsiteActivity.class);
-                                 intent.putExtra("url", "https://google.com");
+                                 intent.putExtra("url", "https://github.com/thangnt294");
                                  startActivity(intent);
                              }
                          })
