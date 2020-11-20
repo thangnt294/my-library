@@ -22,7 +22,7 @@ public class BookActivity extends AppCompatActivity {
 
     public static final String BOOK_ID_KEY = "bookId";
 
-    private TextView txtBookNameInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
+    private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
     private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks;
     private ImageView imgBookInfo;
 
@@ -205,7 +205,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void setData(Book book) {
-        txtBookNameInfo.setText(book.getName());
+        txtBookTitleInfo.setText(book.getTitle());
         txtAuthorNameInfo.setText(book.getAuthor());
         txtPagesInfo.setText(String.valueOf(book.getPages()));
         txtLongDescInfo.setText(book.getLongDesc());
@@ -217,7 +217,7 @@ public class BookActivity extends AppCompatActivity {
 
     private void initViews() {
         txtAuthorNameInfo = findViewById(R.id.txtAuthorNameInfo);
-        txtBookNameInfo = findViewById(R.id.txtBookNameInfo);
+        txtBookTitleInfo = findViewById(R.id.txtBookTitleInfo);
         txtPagesInfo = findViewById(R.id.txtPagesInfo);
         txtLongDescInfo = findViewById(R.id.txtLongDescInfo);
 

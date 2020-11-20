@@ -49,7 +49,7 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book currentBook = bookList.get(position);
         Log.d(TAG, "onBindViewHolder: called");
-        holder.bookName.setText(bookList.get(position).getName());
+        holder.bookTitle.setText(bookList.get(position).getTitle());
         Glide.with(mContext)
                 .asBitmap()
                 .load(currentBook.getImageUrl())
@@ -100,14 +100,14 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setMessage("Are you sure you want to remove " + currentBook.getName() + " from this list?")
+                    builder.setMessage("Are you sure you want to remove " + currentBook.getTitle() + " from this list?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     boolean removedSuccessfully = removeBookFromParentActivity(currentBook);
 
                                     if (removedSuccessfully) {
-                                        Toast.makeText(mContext, currentBook.getName() + " has been removed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, currentBook.getTitle() + " has been removed", Toast.LENGTH_SHORT).show();
                                         notifyDataSetChanged();
                                     } else {
                                         Toast.makeText(mContext, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
@@ -148,7 +148,7 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final CardView parent;
         private final ImageView imgBook;
-        private final TextView bookName;
+        private final TextView bookTitle;
 
         private final ImageView downArrow;
         private final ImageView upArrow;
@@ -161,7 +161,7 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
             super(itemView);
             parent = itemView.findViewById(R.id.parent);
             imgBook = itemView.findViewById(R.id.imgBook);
-            bookName = itemView.findViewById(R.id.txtBookName);
+            bookTitle = itemView.findViewById(R.id.txtBookName);
 
             downArrow = itemView.findViewById(R.id.btnDownArrow);
             upArrow = itemView.findViewById(R.id.btnUpArrow);

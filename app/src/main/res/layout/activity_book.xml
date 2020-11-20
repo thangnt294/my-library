@@ -74,12 +74,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/book_name"
+                android:text="@string/book_title"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
             <TextView
-                android:id="@+id/txtBookNameInfo"
+                android:id="@+id/txtBookTitleInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/book_name_demo"

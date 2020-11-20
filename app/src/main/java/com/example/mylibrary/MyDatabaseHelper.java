@@ -2,6 +2,7 @@ package com.example.mylibrary;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -16,7 +17,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_NAME = "my_library";
     private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "book_name";
+    private static final String COLUMN_TITLE = "book_title";
     private static final String COLUMN_AUTHOR = "book_author";
     private static final String COLUMN_PAGES = "book_pages";
     private static final String COLUMN_IMAGE_URL = "book_image_url";
@@ -31,7 +32,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " +
+                COLUMN_TITLE + " TEXT, " +
                 COLUMN_AUTHOR + " TEXT, " +
                 COLUMN_PAGES + " INTEGER, " +
                 COLUMN_IMAGE_URL + " TEXT, " +
@@ -50,7 +51,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_TITLE, name);
         cv.put(COLUMN_AUTHOR, author);
         cv.put(COLUMN_PAGES, pages);
         cv.put(COLUMN_IMAGE_URL, imageUrl);
@@ -64,5 +65,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
             Toast.makeText(context, "You added a new book!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    Cursor readAllData() {
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
     }
 }

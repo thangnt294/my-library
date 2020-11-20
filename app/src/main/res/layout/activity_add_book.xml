@@ -7,19 +7,19 @@
     tools:context=".AddBookActivity">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_book_title"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:autofillHints="@string/name_add"
+        android:autofillHints="@string/title_add"
         android:ems="10"
-        android:hint="@string/name_add"
+        android:hint="@string/title_add"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_book_author"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="@string/author_add"
@@ -27,11 +27,11 @@
         android:hint="@string/author_add"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_book_title" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_book_pages"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="@string/pages_add"
@@ -39,11 +39,11 @@
         android:hint="@string/pages_add"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_book_author" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_book_image_url"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="@string/image_url_add"
@@ -51,11 +51,11 @@
         android:hint="@string/image_url_add"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_book_pages" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_book_short_desc"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="@string/short_desc_add"
@@ -63,11 +63,11 @@
         android:hint="@string/short_desc_add"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_book_image_url" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
-        android:layout_width="wrap_content"
+        android:id="@+id/txt_book_long_desc"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="@string/long_desc_add"
@@ -76,10 +76,10 @@
         android:hint="@string/long_desc_add"
         android:inputType="textMultiLine"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName5" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_book_short_desc" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txt_add_book_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
@@ -98,22 +98,24 @@
         app:layout_constraintGuide_begin="20dp" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btn_cancel"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:text="@string/cancel"
+        android:backgroundTint="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btn_add"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toEndOf="@+id/btn_cancel"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
     <androidx.constraintlayout.widget.Guideline

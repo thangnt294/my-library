@@ -30,9 +30,10 @@
                 android:layout_below="@id/imgBook"
                 android:layout_marginTop="7dp"
                 android:layout_marginLeft="7dp"
-                android:text="@string/book_name"
+                android:text="@string/book_title"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginStart="7dp" />
 
             <ImageView
                 android:id="@+id/btnDownArrow"
@@ -42,7 +43,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="7dp"
-                android:src="@drawable/ic_down_arrow" />
+                app:srcCompat="@drawable/ic_down_arrow" />
 
 
         </RelativeLayout>
@@ -60,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="7dp"
-                android:text="@string/author" />
+                android:text="@string/author"
+                android:layout_marginStart="7dp" />
 
             <TextView
                 android:id="@+id/authorName"
@@ -69,7 +71,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@id/authorText"
-                android:text="@string/author_name" />
+                android:text="@string/author_name"
+                android:layout_toEndOf="@id/authorText"
+                android:layout_marginStart="5dp" />
 
             <TextView
                 android:id="@+id/shortDescText"
@@ -78,7 +82,8 @@
                 android:layout_below="@id/authorName"
                 android:layout_marginTop="7dp"
                 android:layout_marginLeft="7dp"
-                android:text="@string/short_desc" />
+                android:text="@string/short_desc"
+                android:layout_marginStart="7dp" />
 
             <TextView
                 android:id="@+id/shortDesc"
@@ -87,7 +92,8 @@
                 android:layout_below="@id/shortDescText"
                 android:layout_marginLeft="7dp"
                 android:layout_marginBottom="5dp"
-                android:text="@string/short_desc" />
+                android:text="@string/short_desc"
+                android:layout_marginStart="7dp" />
 
             <ImageView
                 android:id="@+id/btnUpArrow"
@@ -96,7 +102,7 @@
                 android:layout_below="@id/shortDesc"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_up_arrow" />
+                app:srcCompat="@drawable/ic_up_arrow" />
 
             <TextView
                 android:id="@+id/btnRemove"
@@ -107,7 +113,8 @@
                 android:layout_toStartOf="@id/btnUpArrow"
                 android:layout_toLeftOf="@id/btnUpArrow"
                 android:text="@string/remove"
-                android:textColor="@color/red" />
+                android:textColor="@color/red"
+                android:layout_marginEnd="5dp" />
 
         </RelativeLayout>
 
