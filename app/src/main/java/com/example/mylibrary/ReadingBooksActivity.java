@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ReadingBooksActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class ReadingBooksActivity extends AppCompatActivity {
         readingBooksRecView.setAdapter(readingBooksRecViewAdapter);
         readingBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        readingBooksRecViewAdapter.setBookList(Utils.getInstance(this).getReadingBooks());
+        readingBooksRecViewAdapter.setBookList(Utils.getReadingBooks());
     }
 
     @Override
@@ -47,4 +48,5 @@ public class ReadingBooksActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
 }

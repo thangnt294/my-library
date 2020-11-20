@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class WishListBooksActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class WishListBooksActivity extends AppCompatActivity {
         wishListBooksRecView.setAdapter(wishListBooksRecViewAdapter);
         wishListBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        wishListBooksRecViewAdapter.setBookList(Utils.getInstance(this).getWishListBooks());
+        wishListBooksRecViewAdapter.setBookList(Utils.getWishListBooks());
     }
 
     @Override

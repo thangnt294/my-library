@@ -2,7 +2,7 @@ package com.example.mylibrary;
 
 public class Book {
     private int id;
-    private String name;
+    private String title;
     private String author;
     private int pages;
     private String imageUrl;
@@ -10,9 +10,9 @@ public class Book {
     private String longDesc;
     private boolean isExpanded;
 
-    public Book(int id, String name, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public Book(int id, String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.author = author;
         this.pages = pages;
         this.imageUrl = imageUrl;
@@ -29,12 +29,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {
@@ -89,7 +89,7 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", pages=" + pages +
                 ", imageUrl='" + imageUrl + '\'' +

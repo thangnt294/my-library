@@ -22,7 +22,7 @@ public class BookActivity extends AppCompatActivity {
 
     public static final String BOOK_ID_KEY = "bookId";
 
-    private TextView txtBookNameInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
+    private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
     private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks;
     private ImageView imgBookInfo;
 
@@ -43,7 +43,7 @@ public class BookActivity extends AppCompatActivity {
         }
 
         if (bookId != -1) {
-            Book book = Utils.getInstance(this).getBookById(bookId);
+            Book book = Utils.getBookById(bookId);
             if (book != null) {
                 setData(book);
 
@@ -61,7 +61,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleFinishedBooks(final Book book) {
-        ArrayList<Book> finishedBooks = Utils.getInstance(this).getFinishedBooks();
+        ArrayList<Book> finishedBooks = Utils.getFinishedBooks();
 
         AtomicBoolean existInFinishedBooks = new AtomicBoolean(false);
 
@@ -78,12 +78,12 @@ public class BookActivity extends AppCompatActivity {
             btnAddToFinishedBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.getInstance(BookActivity.this).addToFinishedBooks(book)) {
+                    if (Utils.addToFinishedBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to finished books", Toast.LENGTH_SHORT).show();
                         btnAddToFinishedBooks.setEnabled(false);
 
-                        Intent intent = new Intent(BookActivity.this, FinishedBooksActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(BookActivity.this, FinishedBooksActivity.class);
+//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -97,7 +97,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleWishListBooks(final Book book) {
-        ArrayList<Book> wishListBooks = Utils.getInstance(this).getWishListBooks();
+        ArrayList<Book> wishListBooks = Utils.getWishListBooks();
 
         AtomicBoolean existInWishListBooks = new AtomicBoolean(false);
 
@@ -114,12 +114,12 @@ public class BookActivity extends AppCompatActivity {
             btnAddToWishListBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.getInstance(BookActivity.this).addToWishListBooks(book)) {
+                    if (Utils.addToWishListBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to wish list books", Toast.LENGTH_SHORT).show();
                         btnAddToWishListBooks.setEnabled(false);
 
-                        Intent intent = new Intent(BookActivity.this, WishListBooksActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(BookActivity.this, WishListBooksActivity.class);
+//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -133,7 +133,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleReadingBooks(final Book book) {
-        ArrayList<Book> readingBooks = Utils.getInstance(this).getReadingBooks();
+        ArrayList<Book> readingBooks = Utils.getReadingBooks();
 
         AtomicBoolean existInReadingBooks = new AtomicBoolean(false);
 
@@ -150,12 +150,12 @@ public class BookActivity extends AppCompatActivity {
             btnAddToReadingBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.getInstance(BookActivity.this).addToReadingBooks(book)) {
+                    if (Utils.addToReadingBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to reading books", Toast.LENGTH_SHORT).show();
                         btnAddToReadingBooks.setEnabled(false);
 
-                        Intent intent = new Intent(BookActivity.this, ReadingBooksActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(BookActivity.this, ReadingBooksActivity.class);
+//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -169,7 +169,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleFavoriteBooks(final Book book) {
-        ArrayList<Book> favoriteBooks = Utils.getInstance(this).getFavoriteBooks();
+        ArrayList<Book> favoriteBooks = Utils.getFavoriteBooks();
 
         AtomicBoolean existInFavoriteBooks = new AtomicBoolean(false);
 
@@ -186,12 +186,12 @@ public class BookActivity extends AppCompatActivity {
             btnAddToFavoriteBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.getInstance(BookActivity.this).addToFavoriteBooks(book)) {
+                    if (Utils.addToFavoriteBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to favorite", Toast.LENGTH_SHORT).show();
                         btnAddToFavoriteBooks.setEnabled(false);
 
-                        Intent intent = new Intent(BookActivity.this, FavoriteBooksActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(BookActivity.this, FavoriteBooksActivity.class);
+//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -205,7 +205,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void setData(Book book) {
-        txtBookNameInfo.setText(book.getName());
+        txtBookTitleInfo.setText(book.getTitle());
         txtAuthorNameInfo.setText(book.getAuthor());
         txtPagesInfo.setText(String.valueOf(book.getPages()));
         txtLongDescInfo.setText(book.getLongDesc());
@@ -217,7 +217,7 @@ public class BookActivity extends AppCompatActivity {
 
     private void initViews() {
         txtAuthorNameInfo = findViewById(R.id.txtAuthorNameInfo);
-        txtBookNameInfo = findViewById(R.id.txtBookNameInfo);
+        txtBookTitleInfo = findViewById(R.id.txtBookTitleInfo);
         txtPagesInfo = findViewById(R.id.txtPagesInfo);
         txtLongDescInfo = findViewById(R.id.txtLongDescInfo);
 

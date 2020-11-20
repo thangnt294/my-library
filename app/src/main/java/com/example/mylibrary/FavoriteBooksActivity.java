@@ -11,9 +11,10 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class FavoriteBooksActivity extends AppCompatActivity {
+public class FavoriteBooksActivity extends AppCompatActivity{
 
     private RecyclerView favoriteBooksRecView;
     private BooksRecViewAdapter favoriteBooksRecViewAdapter;
@@ -31,7 +32,8 @@ public class FavoriteBooksActivity extends AppCompatActivity {
         favoriteBooksRecView.setAdapter(favoriteBooksRecViewAdapter);
         favoriteBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        favoriteBooksRecViewAdapter.setBookList(Utils.getInstance(this).getFavoriteBooks());
+        favoriteBooksRecViewAdapter.setBookList(Utils.getFavoriteBooks());
+
     }
 
     @Override

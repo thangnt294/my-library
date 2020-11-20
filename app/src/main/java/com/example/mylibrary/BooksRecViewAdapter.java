@@ -25,13 +25,13 @@ import java.util.ArrayList;
 
 import static com.example.mylibrary.BookActivity.BOOK_ID_KEY;
 
-public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapter.ViewHolder> {
+public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapter.ViewHolder>{
 
     public static final String TAG = "BooksRecViewAdapter";
 
     private ArrayList<Book> bookList = new ArrayList<>();
-    private Context mContext;
-    private ActivityType parentActivity;
+    private final Context mContext;
+    private final ActivityType parentActivity;
 
     public BooksRecViewAdapter(Context mContext, ActivityType parentActivity) {
         this.mContext = mContext;
@@ -49,7 +49,7 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book currentBook = bookList.get(position);
         Log.d(TAG, "onBindViewHolder: called");
-        holder.bookName.setText(bookList.get(position).getName());
+        holder.bookTitle.setText(bookList.get(position).getTitle());
         Glide.with(mContext)
                 .asBitmap()
                 .load(currentBook.getImageUrl())
@@ -100,15 +100,15 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setMessage("Are you sure you want to remove " + currentBook.getName() + " from this list?")
+                    builder.setMessage("Are you sure you want to remove " + currentBook.getTitle() + " from this list?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     boolean removedSuccessfully = removeBookFromParentActivity(currentBook);
 
                                     if (removedSuccessfully) {
-                                        Toast.makeText(mContext, currentBook.getName() + " has been removed", Toast.LENGTH_SHORT).show();
-                                        notifyItemChanged(position);
+                                        Toast.makeText(mContext, currentBook.getTitle() + " has been removed", Toast.LENGTH_SHORT).show();
+                                        notifyDataSetChanged();
                                     } else {
                                         Toast.makeText(mContext, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                                     }
@@ -128,13 +128,13 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
         boolean result = false;
 
         if (parentActivity.equals(ActivityType.ReadingBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromReadingBooks(currentBook);
+            result = Utils.removeFromReadingBooks(currentBook);
         } else if (parentActivity.equals(ActivityType.FinishedBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromFinishedBooks(currentBook);
+            result = Utils.removeFromFinishedBooks(currentBook);
         } else if (parentActivity.equals(ActivityType.FavoriteBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromFavoriteBooks(currentBook);
+            result = Utils.removeFromFavoriteBooks(currentBook);
         } else if (parentActivity.equals(ActivityType.WishListBooksActivity)) {
-            result = Utils.getInstance(mContext).removeFromWishListBooks(currentBook);
+            result = Utils.removeFromWishListBooks(currentBook);
         }
 
         return result;
@@ -148,7 +148,7 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final CardView parent;
         private final ImageView imgBook;
-        private final TextView bookName;
+        private final TextView bookTitle;
 
         private final ImageView downArrow;
         private final ImageView upArrow;
@@ -161,7 +161,7 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
             super(itemView);
             parent = itemView.findViewById(R.id.parent);
             imgBook = itemView.findViewById(R.id.imgBook);
-            bookName = itemView.findViewById(R.id.txtBookName);
+            bookTitle = itemView.findViewById(R.id.txtBookName);
 
             downArrow = itemView.findViewById(R.id.btnDownArrow);
             upArrow = itemView.findViewById(R.id.btnUpArrow);
