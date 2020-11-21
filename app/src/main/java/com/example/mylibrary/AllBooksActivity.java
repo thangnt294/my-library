@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.mylibrary.constants.ActivityType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class AllBooksActivity extends AppCompatActivity {
@@ -38,7 +37,7 @@ public class AllBooksActivity extends AppCompatActivity {
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AllBooksActivity.this, AddBookActivity.class);
+                Intent intent = new Intent(AllBooksActivity.this, EditBookActivity.class);
                 startActivity(intent);
             }
         });
