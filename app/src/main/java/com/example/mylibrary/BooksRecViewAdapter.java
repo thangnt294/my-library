@@ -50,10 +50,11 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
         Book currentBook = bookList.get(position);
         Log.d(TAG, "onBindViewHolder: called");
         holder.bookTitle.setText(bookList.get(position).getTitle());
-        Glide.with(mContext)
-                .asBitmap()
-                .load(currentBook.getImageUrl())
-                .into(holder.imgBook);
+            Glide.with(mContext)
+                    .asBitmap()
+                    .load(currentBook.getImageUrl())
+                    .error(R.drawable.default_image)
+                    .into(holder.imgBook);
 
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override

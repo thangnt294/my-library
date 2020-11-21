@@ -47,11 +47,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addBook(String name, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public void addBook(String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_TITLE, name);
+        cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_AUTHOR, author);
         cv.put(COLUMN_PAGES, pages);
         cv.put(COLUMN_IMAGE_URL, imageUrl);
@@ -62,8 +62,26 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         if (result == -1) {
             Toast.makeText(context, "Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show();
         } else {
-
             Toast.makeText(context, "You added a new book!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void updateBook(String id, String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+        SQLiteDatabase db= this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_TITLE, title);
+        cv.put(COLUMN_AUTHOR, author);
+        cv.put(COLUMN_PAGES, pages);
+        cv.put(COLUMN_IMAGE_URL, imageUrl);
+        cv.put(COLUMN_SHORT_DESC, shortDesc);
+        cv.put(COLUMN_LONG_DESC, longDesc);
+
+        long result = db.update(TABLE_NAME, cv, "id=?", new String[]{id});
+        if (result == -1) {
+            Toast.makeText(context, "Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
         }
     }
 

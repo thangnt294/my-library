@@ -6,13 +6,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.mylibrary.constants.ActivityType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class AllBooksActivity extends AppCompatActivity {
@@ -20,6 +23,8 @@ public class AllBooksActivity extends AppCompatActivity {
     private RecyclerView booksRecView;
     private BooksRecViewAdapter booksRecViewAdapter;
     private FloatingActionButton btnAddBook;
+
+    private MyDatabaseHelper myDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class AllBooksActivity extends AppCompatActivity {
         booksRecView.setAdapter(booksRecViewAdapter);
         booksRecView.setLayoutManager(new LinearLayoutManager(this));
 
+        myDB = new MyDatabaseHelper(this);
+        storeDataInArrays();
         booksRecViewAdapter.setBookList(Utils.getAllBooks());
     }
 
@@ -52,5 +59,26 @@ public class AllBooksActivity extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    void storeDataInArrays() {
+        Utils.resetAllBooks();
+        Cursor cursor = myDB.readAllData();
+
+        if (cursor.getCount() == 0) {
+            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                int id = Integer.parseInt(cursor.getString(0));
+                String title = cursor.getString(1);
+                String author = cursor.getString(2);
+                int pages = Integer.parseInt(cursor.getString(3));
+                String imageUrl = cursor.getString(4);
+                String shortDesc = cursor.getString(5);
+                String longDesc = cursor.getString(6);
+                Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc);
+                Utils.addToAllBooks(book);
+            }
+        }
     }
 }
