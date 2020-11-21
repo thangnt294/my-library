@@ -22,14 +22,14 @@ public class Utils {
         finishedBooks = new ArrayList<Book>();
         favoriteBooks = new ArrayList<Book>();
         wishListBooks = new ArrayList<Book>();
-        allBooks.add(new Book(1, "1Q84", "Murakami Haruki", 1350, "https://images-na.ssl-images-amazon.com/images/I/81M0jxrDz5L.jpg",
-                "A work of maddening brilliance.", "The very thought of Aomame's situation will pain anyone stuck in the quicksand of “1Q84.” You, sucker, will wade through nearly 1,000 uneventful pages while discovering a Tokyo that has two moons and is controlled by creatures that emerge from the mouth of a dead goat. "));
-        allBooks.add(new Book(2, "The myth of Sisyphus", "Albert Camus", 250, "https://m.media-amazon.com/images/I/41UIPIw6v0L.jpg",
-                "One of the most influential works of this century.", "In The Myth of Sisyphus Camus elucidates this concept of the absurd. The absurd comes with the realization that the world is not rational: “At this point of his effort man stands face to face with the irrational. He feels within him his longing for happiness and for reason."));
-        allBooks.add(new Book(3, "Moby Dick", "Herman MelVille", 927, "https://kbimages1-a.akamaihd.net/ae25aaf3-7841-4b90-a175-8e55ca639064/1200/1200/False/moby-dick-222.jpg",
-                "The book of this century", "Moby-Dick is about everything, a bible written in scrimshaw, an adventure spun in allegory, a taxonomy tripping on acid. It seems to exist outside its own time, much like Don Quixote and Tristram Shandy, the poetry of Emily Dickinson. It is so broad and so deep as to accept any interpretation while also staring back and mocking this man-made desire toward interpretation."));
-        allBooks.add(new Book(4, "To kill a mockingbird", "Harper Lee", 281, "https://images-na.ssl-images-amazon.com/images/I/81gepf1eMqL.jpg",
-                "A classic of modern American literature", "Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos."));
+//        allBooks.add(new Book(1, "1Q84", "Murakami Haruki", 1350, "https://images-na.ssl-images-amazon.com/images/I/81M0jxrDz5L.jpg",
+//                "A work of maddening brilliance.", "The very thought of Aomame's situation will pain anyone stuck in the quicksand of “1Q84.” You, sucker, will wade through nearly 1,000 uneventful pages while discovering a Tokyo that has two moons and is controlled by creatures that emerge from the mouth of a dead goat. "));
+//        allBooks.add(new Book(2, "The myth of Sisyphus", "Albert Camus", 250, "https://m.media-amazon.com/images/I/41UIPIw6v0L.jpg",
+//                "One of the most influential works of this century.", "In The Myth of Sisyphus Camus elucidates this concept of the absurd. The absurd comes with the realization that the world is not rational: “At this point of his effort man stands face to face with the irrational. He feels within him his longing for happiness and for reason."));
+//        allBooks.add(new Book(3, "Moby Dick", "Herman MelVille", 927, "https://kbimages1-a.akamaihd.net/ae25aaf3-7841-4b90-a175-8e55ca639064/1200/1200/False/moby-dick-222.jpg",
+//                "The book of this century", "Moby-Dick is about everything, a bible written in scrimshaw, an adventure spun in allegory, a taxonomy tripping on acid. It seems to exist outside its own time, much like Don Quixote and Tristram Shandy, the poetry of Emily Dickinson. It is so broad and so deep as to accept any interpretation while also staring back and mocking this man-made desire toward interpretation."));
+//        allBooks.add(new Book(4, "To kill a mockingbird", "Harper Lee", 281, "https://images-na.ssl-images-amazon.com/images/I/81gepf1eMqL.jpg",
+//                "A classic of modern American literature", "Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos."));
     }
 
     public static void getInstance() {
@@ -50,6 +50,8 @@ public class Utils {
         return null;
     }
 
+    public static boolean addToAllBooks(Book book) { return allBooks.add(book);}
+
     public static boolean addToFinishedBooks(Book book) {
         return finishedBooks.add(book);
     }
@@ -66,6 +68,8 @@ public class Utils {
         return favoriteBooks.add(book);
     }
 
+    public static boolean removeFromAllBooks(Book book) { return allBooks.remove(book); }
+
     public static boolean removeFromFinishedBooks(Book book) {
         return finishedBooks.remove(book);
     }
@@ -80,6 +84,10 @@ public class Utils {
 
     public static boolean removeFromFavoriteBooks(Book book) {
         return favoriteBooks.remove(book);
+    }
+
+    public static void resetAllBooks() {
+        allBooks.clear();
     }
 
     public static ArrayList<Book> getAllBooks() {

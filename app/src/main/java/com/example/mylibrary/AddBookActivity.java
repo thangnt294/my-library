@@ -29,14 +29,13 @@ public class AddBookActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDatabaseHelper db = new MyDatabaseHelper(AddBookActivity.this);
-                db.addBook(title.getText().toString().trim(),
+                MyDatabaseHelper myDB = new MyDatabaseHelper(AddBookActivity.this);
+                myDB.addBook(title.getText().toString().trim(),
                         author.getText().toString().trim(),
                         Integer.parseInt(pages.getText().toString().trim()),
                         imageUrl.getText().toString().trim(),
                         shortDesc.getText().toString().trim(),
                         longDesc.getText().toString().trim());
-                onBackPressed();
             }
         });
 
