@@ -1,8 +1,6 @@
 package com.example.mylibrary;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,7 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
+import com.example.mylibrary.constants.ActivityType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -23,7 +26,7 @@ public class BookActivity extends AppCompatActivity {
     public static final String BOOK_ID_KEY = "bookId";
 
     private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
-    private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks;
+    private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks, btnEdit;
     private ImageView imgBookInfo;
 
     @Override
@@ -42,22 +45,14 @@ public class BookActivity extends AppCompatActivity {
             bookId = intent.getIntExtra(BOOK_ID_KEY, -1);
         }
 
-        if (bookId != -1) {
-            Book book = Utils.getBookById(bookId);
-            if (book != null) {
-                setData(book);
+        reloadDataByBookId(bookId);
 
-                handleFinishedBooks(book);
-                handleWishListBooks(book);
-                handleReadingBooks(book);
-                handleFavoriteBooks(book);
-            }
-        }
     }
 
     /**
      * Disable the "Add to finished books" button if the book is already finished
      * Add the book to finished books if not
+     *
      * @param book The current book
      */
     private void handleFinishedBooks(final Book book) {
@@ -81,9 +76,6 @@ public class BookActivity extends AppCompatActivity {
                     if (Utils.addToFinishedBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to finished books", Toast.LENGTH_SHORT).show();
                         btnAddToFinishedBooks.setEnabled(false);
-
-//                        Intent intent = new Intent(BookActivity.this, FinishedBooksActivity.class);
-//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -94,6 +86,7 @@ public class BookActivity extends AppCompatActivity {
 
     /**
      * Same logic as the handleFinishedBooks method
+     *
      * @param book The current book
      */
     private void handleWishListBooks(final Book book) {
@@ -117,9 +110,6 @@ public class BookActivity extends AppCompatActivity {
                     if (Utils.addToWishListBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to wish list books", Toast.LENGTH_SHORT).show();
                         btnAddToWishListBooks.setEnabled(false);
-
-//                        Intent intent = new Intent(BookActivity.this, WishListBooksActivity.class);
-//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -130,6 +120,7 @@ public class BookActivity extends AppCompatActivity {
 
     /**
      * Same logic as the handleFinishedBooks method
+     *
      * @param book The current book
      */
     private void handleReadingBooks(final Book book) {
@@ -153,9 +144,6 @@ public class BookActivity extends AppCompatActivity {
                     if (Utils.addToReadingBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to reading books", Toast.LENGTH_SHORT).show();
                         btnAddToReadingBooks.setEnabled(false);
-
-//                        Intent intent = new Intent(BookActivity.this, ReadingBooksActivity.class);
-//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -166,6 +154,7 @@ public class BookActivity extends AppCompatActivity {
 
     /**
      * Same logic as the handleFinishedBooks method
+     *
      * @param book The current book
      */
     private void handleFavoriteBooks(final Book book) {
@@ -189,9 +178,6 @@ public class BookActivity extends AppCompatActivity {
                     if (Utils.addToFavoriteBooks(book)) {
                         Toast.makeText(BookActivity.this, "Added to favorite", Toast.LENGTH_SHORT).show();
                         btnAddToFavoriteBooks.setEnabled(false);
-
-//                        Intent intent = new Intent(BookActivity.this, FavoriteBooksActivity.class);
-//                        startActivity(intent);
                     } else {
                         Toast.makeText(BookActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
                     }
@@ -200,8 +186,21 @@ public class BookActivity extends AppCompatActivity {
         }
     }
 
+    private void handleEditBook(int bookId) {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BookActivity.this, EditBookActivity.class);
+                intent.putExtra(EditBookActivity.ACTIVITY_TYPE, ActivityType.UpdateBookActivity);
+                intent.putExtra(BOOK_ID_KEY, bookId);
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
     /**
      * Set the book data to the views
+     *
      * @param book The current book
      */
     private void setData(Book book) {
@@ -212,6 +211,7 @@ public class BookActivity extends AppCompatActivity {
         Glide.with(this)
                 .asBitmap()
                 .load(book.getImageUrl())
+                .error(R.drawable.default_image)
                 .into(imgBookInfo);
     }
 
@@ -225,8 +225,40 @@ public class BookActivity extends AppCompatActivity {
         btnAddToReadingBooks = findViewById(R.id.btnAddToReadingBooks);
         btnAddToFinishedBooks = findViewById(R.id.btnAddToFinishedBooks);
         btnAddToFavoriteBooks = findViewById(R.id.btnAddToFavoriteBooks);
+        btnEdit = findViewById(R.id.btn_edit);
+
 
         imgBookInfo = findViewById(R.id.imgBookInfo);
+    }
+
+    private void reloadDataByBookId(int bookId) {
+        if (bookId != -1) {
+            Book book = Utils.getBookById(bookId);
+            if (book != null) {
+                setData(book);
+
+                handleFinishedBooks(book);
+                handleWishListBooks(book);
+                handleReadingBooks(book);
+                handleFavoriteBooks(book);
+                handleEditBook(bookId);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                assert data != null;
+                int updatedBookId = data.getIntExtra(BOOK_ID_KEY, -1);
+                reloadDataByBookId(updatedBookId);
+                Toast.makeText(this, R.string.update_success, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, R.string.general_error, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

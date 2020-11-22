@@ -47,7 +47,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addBook(String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public long addBook(String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -58,15 +58,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SHORT_DESC, shortDesc);
         cv.put(COLUMN_LONG_DESC, longDesc);
 
-        long result = db.insert(TABLE_NAME, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "You added a new book!", Toast.LENGTH_SHORT).show();
-        }
+        return db.insert(TABLE_NAME, null, cv);
     }
 
-    public void updateBook(String id, String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public long updateBook(String id, String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
         SQLiteDatabase db= this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -77,12 +72,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SHORT_DESC, shortDesc);
         cv.put(COLUMN_LONG_DESC, longDesc);
 
-        long result = db.update(TABLE_NAME, cv, "id=?", new String[]{id});
-        if (result == -1) {
-            Toast.makeText(context, "Something went wrong. Please try again later.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
-        }
+        return db.update(TABLE_NAME, cv, "id=?", new String[]{id});
     }
 
     Cursor readAllData() {

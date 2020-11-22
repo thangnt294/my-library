@@ -1,10 +1,12 @@
 package com.example.mylibrary;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,7 +25,6 @@ public class AllBooksActivity extends AppCompatActivity {
     private BooksRecViewAdapter booksRecViewAdapter;
     private FloatingActionButton btnAddBook;
 
-    private MyDatabaseHelper myDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,8 @@ public class AllBooksActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AllBooksActivity.this, EditBookActivity.class);
-                startActivity(intent);
+                intent.putExtra(EditBookActivity.ACTIVITY_TYPE, ActivityType.AddBookActivity);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -47,9 +49,21 @@ public class AllBooksActivity extends AppCompatActivity {
         booksRecView.setAdapter(booksRecViewAdapter);
         booksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        myDB = new MyDatabaseHelper(this);
-        storeDataInArrays();
+        Utils.fetchData();
         booksRecViewAdapter.setBookList(Utils.getAllBooks());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                recreate();
+                Toast.makeText(this, R.string.add_success, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.general_error, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -60,24 +74,5 @@ public class AllBooksActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void storeDataInArrays() {
-        Utils.resetAllBooks();
-        Cursor cursor = myDB.readAllData();
 
-        if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
-        } else {
-            while (cursor.moveToNext()) {
-                int id = Integer.parseInt(cursor.getString(0));
-                String title = cursor.getString(1);
-                String author = cursor.getString(2);
-                int pages = Integer.parseInt(cursor.getString(3));
-                String imageUrl = cursor.getString(4);
-                String shortDesc = cursor.getString(5);
-                String longDesc = cursor.getString(6);
-                Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc);
-                Utils.addToAllBooks(book);
-            }
-        }
-    }
 }

@@ -25,6 +25,8 @@
     <string name="add_to_favorite">Add To Favorite</string>
 
     <string name="add_a_book">Add a book</string>
+    <string name="edit_book">Edit book</string>
+    <string name="edit">Edit</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="title_add">Title</string>
@@ -33,5 +35,9 @@
     <string name="image_url_add">Image URL</string>
     <string name="short_desc_add">Short description</string>
     <string name="long_desc_add">Long description</string>
+
+    <string name="general_error">Something went wrong. Please try again later.</string>
+    <string name="update_success">Updated successfully</string>
+    <string name="add_success">You added a new book!</string>
 
 </resources>

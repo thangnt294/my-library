@@ -37,7 +37,7 @@
         android:autofillHints="@string/pages_add"
         android:ems="10"
         android:hint="@string/pages_add"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/txt_book_author" />
 
@@ -49,7 +49,7 @@
         android:autofillHints="@string/image_url_add"
         android:ems="10"
         android:hint="@string/image_url_add"
-        android:inputType="textPersonName"
+        android:inputType="textUri"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/txt_book_pages" />
 

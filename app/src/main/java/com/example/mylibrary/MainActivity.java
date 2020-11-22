@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         initButtonOnClick();
 
         // Instantiating the Utils class for the first time, in order to avoid null pointer exceptions
-        Utils.getInstance();
+        Utils.getInstance(this);
     }
 
     private void initButtonOnClick() {

@@ -1,5 +1,8 @@
 package com.example.mylibrary;
 
+import android.content.Context;
+import android.database.Cursor;
+
 import java.util.ArrayList;
 
 public class Utils {
@@ -12,11 +15,14 @@ public class Utils {
 
     private static Utils instance;
 
-    private Utils() {
-        initData();
+    private static MyDatabaseHelper myDB;
+
+    private Utils(Context context) {
+        initData(context);
     }
 
-    private void initData() {
+    private void initData(Context context) {
+        myDB = new MyDatabaseHelper(context);
         allBooks = new ArrayList<Book>();
         readingBooks = new ArrayList<Book>();
         finishedBooks = new ArrayList<Book>();
@@ -32,9 +38,9 @@ public class Utils {
 //                "A classic of modern American literature", "Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos."));
     }
 
-    public static void getInstance() {
+    public static void getInstance(Context context) {
         if (instance == null) {
-            instance = new Utils();
+            instance = new Utils(context);
         }
     }
 
@@ -50,7 +56,27 @@ public class Utils {
         return null;
     }
 
-    public static boolean addToAllBooks(Book book) { return allBooks.add(book);}
+    public static void fetchData() {
+        resetAllBooks();
+        Cursor cursor = myDB.readAllData();
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                int id = Integer.parseInt(cursor.getString(0));
+                String title = cursor.getString(1);
+                String author = cursor.getString(2);
+                int pages = Integer.parseInt(cursor.getString(3));
+                String imageUrl = cursor.getString(4);
+                String shortDesc = cursor.getString(5);
+                String longDesc = cursor.getString(6);
+                Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc);
+                addToAllBooks(book);
+            }
+        }
+    }
+
+    public static boolean addToAllBooks(Book book) {
+        return allBooks.add(book);
+    }
 
     public static boolean addToFinishedBooks(Book book) {
         return finishedBooks.add(book);
@@ -68,7 +94,9 @@ public class Utils {
         return favoriteBooks.add(book);
     }
 
-    public static boolean removeFromAllBooks(Book book) { return allBooks.remove(book); }
+    public static boolean removeFromAllBooks(Book book) {
+        return allBooks.remove(book);
+    }
 
     public static boolean removeFromFinishedBooks(Book book) {
         return finishedBooks.remove(book);
