@@ -89,7 +89,7 @@ public class EditBookActivity extends AppCompatActivity {
                     resultIntent.putExtra(BookActivity.BOOK_ID_KEY, bookId);
                 }
 
-                if (result != -1) {
+                if (result == -1) {
                     setResult(2, resultIntent);
                 } else {
                     Utils.fetchData();
