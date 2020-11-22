@@ -5,5 +5,7 @@ public enum ActivityType {
     FavoriteBooksActivity,
     FinishedBooksActivity,
     ReadingBooksActivity,
-    WishListBooksActivity
+    WishListBooksActivity,
+    AddBookActivity,
+    UpdateBookActivity
 }
