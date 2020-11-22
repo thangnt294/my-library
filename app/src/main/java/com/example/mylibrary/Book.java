@@ -21,6 +21,16 @@ public class Book {
         this.isExpanded = false;
     }
 
+    public Book(String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.imageUrl = imageUrl;
+        this.shortDesc = shortDesc;
+        this.longDesc = longDesc;
+        this.isExpanded = false;
+    }
+
     public int getId() {
         return id;
     }

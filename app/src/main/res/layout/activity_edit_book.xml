@@ -101,22 +101,24 @@
         android:id="@+id/btn_cancel"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:text="@string/cancel"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/red"
+        android:text="@string/cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintHorizontal_bias="0.151"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline11" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_book_long_desc" />
 
     <Button
         android:id="@+id/btn_confirm"
         android:layout_width="120dp"
         android:layout_height="60dp"
+        android:layout_marginTop="20dp"
         android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toEndOf="@+id/btn_cancel"
-        app:layout_constraintTop_toTopOf="@+id/guideline11" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_book_long_desc" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline9"
@@ -124,12 +126,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="142dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="492dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

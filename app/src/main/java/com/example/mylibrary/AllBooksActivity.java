@@ -60,7 +60,7 @@ public class AllBooksActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 recreate();
                 Toast.makeText(this, R.string.add_success, Toast.LENGTH_SHORT).show();
-            } else {
+            } else if (resultCode == 2) {
                 Toast.makeText(this, R.string.general_error, Toast.LENGTH_SHORT).show();
             }
         }

@@ -255,9 +255,9 @@ public class BookActivity extends AppCompatActivity {
                 int updatedBookId = data.getIntExtra(BOOK_ID_KEY, -1);
                 reloadDataByBookId(updatedBookId);
                 Toast.makeText(this, R.string.update_success, Toast.LENGTH_SHORT).show();
+            } else if (resultCode == 2) {
+                Toast.makeText(this, R.string.general_error, Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, R.string.general_error, Toast.LENGTH_SHORT).show();
         }
     }
 

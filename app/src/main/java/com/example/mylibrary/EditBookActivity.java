@@ -83,14 +83,14 @@ public class EditBookActivity extends AppCompatActivity {
                 Intent resultIntent = new Intent();
                 long result;
                 if (activityType == ActivityType.AddBookActivity) {
-                    result = myDB.addBook(newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc);
+                    result = myDB.addBook(new Book(newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc));
                 } else {
-                    result = myDB.updateBook(Integer.toString(bookId), newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc);
+                    result = myDB.updateBook(new Book(bookId, newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc));
                     resultIntent.putExtra(BookActivity.BOOK_ID_KEY, bookId);
                 }
 
-                if (result == -1) {
-                    setResult(Activity.RESULT_CANCELED, resultIntent);
+                if (result != -1) {
+                    setResult(2, resultIntent);
                 } else {
                     Utils.fetchData();
                     setResult(Activity.RESULT_OK, resultIntent);

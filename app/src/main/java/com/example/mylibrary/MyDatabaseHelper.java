@@ -47,32 +47,32 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long addBook(String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public long addBook(Book book) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_AUTHOR, author);
-        cv.put(COLUMN_PAGES, pages);
-        cv.put(COLUMN_IMAGE_URL, imageUrl);
-        cv.put(COLUMN_SHORT_DESC, shortDesc);
-        cv.put(COLUMN_LONG_DESC, longDesc);
+        cv.put(COLUMN_TITLE, book.getTitle());
+        cv.put(COLUMN_AUTHOR, book.getAuthor());
+        cv.put(COLUMN_PAGES, book.getPages());
+        cv.put(COLUMN_IMAGE_URL, book.getImageUrl());
+        cv.put(COLUMN_SHORT_DESC, book.getShortDesc());
+        cv.put(COLUMN_LONG_DESC, book.getLongDesc());
 
         return db.insert(TABLE_NAME, null, cv);
     }
 
-    public long updateBook(String id, String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public long updateBook(Book book) {
         SQLiteDatabase db= this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_AUTHOR, author);
-        cv.put(COLUMN_PAGES, pages);
-        cv.put(COLUMN_IMAGE_URL, imageUrl);
-        cv.put(COLUMN_SHORT_DESC, shortDesc);
-        cv.put(COLUMN_LONG_DESC, longDesc);
+        cv.put(COLUMN_TITLE, book.getTitle());
+        cv.put(COLUMN_AUTHOR, book.getAuthor());
+        cv.put(COLUMN_PAGES, book.getPages());
+        cv.put(COLUMN_IMAGE_URL, book.getImageUrl());
+        cv.put(COLUMN_SHORT_DESC, book.getShortDesc());
+        cv.put(COLUMN_LONG_DESC, book.getLongDesc());
 
-        return db.update(TABLE_NAME, cv, "id=?", new String[]{id});
+        return db.update(TABLE_NAME, cv, "id=?", new String[]{Integer.toString(book.getId())});
     }
 
     Cursor readAllData() {
