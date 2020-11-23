@@ -201,7 +201,7 @@ public class BookActivity extends AppCompatActivity {
     }
 
     private void handleDeleteBook(int bookId) {
-        btnEdit.setOnClickListener(new View.OnClickListener() {
+        btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BookActivity.this);
