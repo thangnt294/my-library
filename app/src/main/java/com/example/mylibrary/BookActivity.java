@@ -1,6 +1,7 @@
 package com.example.mylibrary;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -26,7 +28,7 @@ public class BookActivity extends AppCompatActivity {
     public static final String BOOK_ID_KEY = "bookId";
 
     private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
-    private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks, btnEdit;
+    private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks, btnEdit, btnDelete;
     private ImageView imgBookInfo;
 
     @Override
@@ -198,6 +200,34 @@ public class BookActivity extends AppCompatActivity {
         });
     }
 
+    private void handleDeleteBook(int bookId) {
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(BookActivity.this);
+                builder.setMessage("Are you sure you want to delete this book?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
+                                long result = myDB.deleteBook(bookId);
+
+                                if (result != -1) {
+                                    onBackPressed();
+                                } else {
+                                    Toast.makeText(BookActivity.this, R.string.general_error, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Auto-dismiss the dialog
+                    }
+                }).create().show();
+            }
+        });
+    }
+
     /**
      * Set the book data to the views
      *
@@ -225,8 +255,9 @@ public class BookActivity extends AppCompatActivity {
         btnAddToReadingBooks = findViewById(R.id.btnAddToReadingBooks);
         btnAddToFinishedBooks = findViewById(R.id.btnAddToFinishedBooks);
         btnAddToFavoriteBooks = findViewById(R.id.btnAddToFavoriteBooks);
-        btnEdit = findViewById(R.id.btn_edit);
 
+        btnEdit = findViewById(R.id.btn_edit);
+        btnDelete = findViewById(R.id.btn_delete);
 
         imgBookInfo = findViewById(R.id.imgBookInfo);
     }
@@ -242,6 +273,7 @@ public class BookActivity extends AppCompatActivity {
                 handleReadingBooks(book);
                 handleFavoriteBooks(book);
                 handleEditBook(bookId);
+                handleDeleteBook(bookId);
             }
         }
     }

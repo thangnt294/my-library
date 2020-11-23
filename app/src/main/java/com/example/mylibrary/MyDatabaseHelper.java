@@ -62,7 +62,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long updateBook(Book book) {
-        SQLiteDatabase db= this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_TITLE, book.getTitle());
@@ -84,5 +84,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             cursor = db.rawQuery(query, null);
         }
         return cursor;
+    }
+
+    public long deleteBook(int bookId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "id=?", new String[]{Integer.toString(bookId)});
     }
 }
