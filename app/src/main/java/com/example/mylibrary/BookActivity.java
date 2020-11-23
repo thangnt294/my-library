@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class BookActivity extends AppCompatActivity {
     private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
     private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks, btnEdit, btnDelete;
     private ConstraintLayout bookLayout;
+    private RelativeLayout emptyLayout;
     private ImageView imgBookInfo;
 
     @Override
@@ -216,7 +218,8 @@ public class BookActivity extends AppCompatActivity {
 
                                 if (result != -1) {
                                     Toast.makeText(BookActivity.this, R.string.delete_success, Toast.LENGTH_SHORT).show();
-                                    //TODO DISPLAY NO DATA
+                                    bookLayout.setVisibility(View.GONE);
+                                    emptyLayout.setVisibility(View.VISIBLE);
                                 } else {
                                     Toast.makeText(BookActivity.this, R.string.general_error, Toast.LENGTH_SHORT).show();
                                 }
@@ -255,6 +258,7 @@ public class BookActivity extends AppCompatActivity {
         txtLongDescInfo = findViewById(R.id.txtLongDescInfo);
 
         bookLayout = findViewById(R.id.book_layout);
+        emptyLayout = findViewById(R.id.empty_layout);
 
         btnAddToWishListBooks = findViewById(R.id.btnAddToWishListBooks);
         btnAddToReadingBooks = findViewById(R.id.btnAddToReadingBooks);
