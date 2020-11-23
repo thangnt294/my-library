@@ -39,6 +39,9 @@
 
     <string name="general_error">Something went wrong. Please try again later.</string>
     <string name="update_success">Updated successfully</string>
-    <string name="add_success">You added a new book!</string>
+    <string name="add_success">You added a new book</string>
+    <string name="delete_success">This book has been deleted</string>
+
+    <string name="no_data">No Data</string>
 
 </resources>

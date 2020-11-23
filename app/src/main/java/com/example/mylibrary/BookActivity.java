@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.mylibrary.constants.ActivityType;
@@ -29,6 +30,7 @@ public class BookActivity extends AppCompatActivity {
 
     private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
     private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks, btnEdit, btnDelete;
+    private ConstraintLayout bookLayout;
     private ImageView imgBookInfo;
 
     @Override
@@ -213,7 +215,8 @@ public class BookActivity extends AppCompatActivity {
                                 long result = myDB.deleteBook(bookId);
 
                                 if (result != -1) {
-                                    onBackPressed();
+                                    Toast.makeText(BookActivity.this, R.string.delete_success, Toast.LENGTH_SHORT).show();
+                                    //TODO DISPLAY NO DATA
                                 } else {
                                     Toast.makeText(BookActivity.this, R.string.general_error, Toast.LENGTH_SHORT).show();
                                 }
@@ -250,6 +253,8 @@ public class BookActivity extends AppCompatActivity {
         txtBookTitleInfo = findViewById(R.id.txtBookTitleInfo);
         txtPagesInfo = findViewById(R.id.txtPagesInfo);
         txtLongDescInfo = findViewById(R.id.txtLongDescInfo);
+
+        bookLayout = findViewById(R.id.book_layout);
 
         btnAddToWishListBooks = findViewById(R.id.btnAddToWishListBooks);
         btnAddToReadingBooks = findViewById(R.id.btnAddToReadingBooks);
