@@ -216,6 +216,7 @@
                 android:paddingVertical="10dp"
                 android:text="@string/delete"
                 android:textColor="@color/red"
+                app:iconTint="@color/red"
                 android:textAllCaps="false"
                 app:icon="@drawable/ic_delete_white"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
