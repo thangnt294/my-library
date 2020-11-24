@@ -74,5 +74,10 @@ public class AllBooksActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.fetchData();
+        booksRecViewAdapter.setBookList(Utils.getAllBooks());
+    }
 }
