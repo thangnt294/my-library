@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.constants.ActivityType;
+import com.example.mylibrary.constants.BookType;
 
 import java.util.Objects;
 
@@ -83,16 +84,16 @@ public class EditBookActivity extends AppCompatActivity {
                 Intent resultIntent = new Intent();
                 long result;
                 if (activityType == ActivityType.AddBookActivity) {
-                    result = myDB.addBook(new Book(newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc));
+                    result = myDB.addData(new Book(newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc));
                 } else {
-                    result = myDB.updateBook(new Book(bookId, newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc));
+                    result = myDB.updateData(new Book(bookId, newTitle, newAuthor, newPages, newImageUrl, newShortDesc, newLongDesc));
                     resultIntent.putExtra(BookActivity.BOOK_ID_KEY, bookId);
                 }
 
                 if (result == -1) {
                     setResult(2, resultIntent);
                 } else {
-                    Utils.fetchData();
+                    Utils.fetchBooks(BookType.AllBooks);
                     setResult(Activity.RESULT_OK, resultIntent);
                 }
                 finish();

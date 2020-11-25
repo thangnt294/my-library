@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
+import com.example.mylibrary.constants.BookType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class ReadingBooksActivity extends AppCompatActivity {
         readingBooksRecView.setAdapter(readingBooksRecViewAdapter);
         readingBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        readingBooksRecViewAdapter.setBookList(Utils.getReadingBooks());
+        readingBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.ReadingBooks));
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
+import com.example.mylibrary.constants.BookType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public class FavoriteBooksActivity extends AppCompatActivity{
         favoriteBooksRecView.setAdapter(favoriteBooksRecViewAdapter);
         favoriteBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        favoriteBooksRecViewAdapter.setBookList(Utils.getFavoriteBooks());
+        favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
 
     }
 

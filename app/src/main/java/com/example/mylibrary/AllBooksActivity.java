@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.mylibrary.constants.ActivityType;
+import com.example.mylibrary.constants.BookType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -49,8 +50,8 @@ public class AllBooksActivity extends AppCompatActivity {
         booksRecView.setAdapter(booksRecViewAdapter);
         booksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        Utils.fetchData();
-        booksRecViewAdapter.setBookList(Utils.getAllBooks());
+        Utils.fetchBooks(BookType.AllBooks);
+        booksRecViewAdapter.setBookList(Utils.getBookList(BookType.AllBooks));
     }
 
     @Override
@@ -77,7 +78,7 @@ public class AllBooksActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.fetchData();
-        booksRecViewAdapter.setBookList(Utils.getAllBooks());
+        Utils.fetchBooks(BookType.AllBooks);
+        booksRecViewAdapter.setBookList(Utils.getBookList(BookType.AllBooks));
     }
 }

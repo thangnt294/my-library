@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
+import com.example.mylibrary.constants.BookType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class WishListBooksActivity extends AppCompatActivity {
         wishListBooksRecView.setAdapter(wishListBooksRecViewAdapter);
         wishListBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        wishListBooksRecViewAdapter.setBookList(Utils.getWishListBooks());
+        wishListBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.WishListBooks));
     }
 
     @Override

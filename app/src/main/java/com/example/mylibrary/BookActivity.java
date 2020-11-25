@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.mylibrary.constants.ActivityType;
+import com.example.mylibrary.constants.BookType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -62,7 +63,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleFinishedBooks(final Book book) {
-        ArrayList<Book> finishedBooks = Utils.getFinishedBooks();
+        ArrayList<Book> finishedBooks = Utils.getBookList(BookType.FinishedBooks);
 
         AtomicBoolean existInFinishedBooks = new AtomicBoolean(false);
 
@@ -79,7 +80,7 @@ public class BookActivity extends AppCompatActivity {
             btnAddToFinishedBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToFinishedBooks(book)) {
+                    if (Utils.addToBookList(book, BookType.FinishedBooks)) {
                         Toast.makeText(BookActivity.this, "Added to finished books", Toast.LENGTH_SHORT).show();
                         btnAddToFinishedBooks.setEnabled(false);
                     } else {
@@ -96,7 +97,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleWishListBooks(final Book book) {
-        ArrayList<Book> wishListBooks = Utils.getWishListBooks();
+        ArrayList<Book> wishListBooks = Utils.getBookList(BookType.WishListBooks);
 
         AtomicBoolean existInWishListBooks = new AtomicBoolean(false);
 
@@ -113,7 +114,7 @@ public class BookActivity extends AppCompatActivity {
             btnAddToWishListBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToWishListBooks(book)) {
+                    if (Utils.addToBookList(book, BookType.WishListBooks)) {
                         Toast.makeText(BookActivity.this, "Added to wish list books", Toast.LENGTH_SHORT).show();
                         btnAddToWishListBooks.setEnabled(false);
                     } else {
@@ -130,7 +131,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleReadingBooks(final Book book) {
-        ArrayList<Book> readingBooks = Utils.getReadingBooks();
+        ArrayList<Book> readingBooks = Utils.getBookList(BookType.ReadingBooks);
 
         AtomicBoolean existInReadingBooks = new AtomicBoolean(false);
 
@@ -147,7 +148,7 @@ public class BookActivity extends AppCompatActivity {
             btnAddToReadingBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToReadingBooks(book)) {
+                    if (Utils.addToBookList(book, BookType.ReadingBooks)) {
                         Toast.makeText(BookActivity.this, "Added to reading books", Toast.LENGTH_SHORT).show();
                         btnAddToReadingBooks.setEnabled(false);
                     } else {
@@ -164,7 +165,7 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleFavoriteBooks(final Book book) {
-        ArrayList<Book> favoriteBooks = Utils.getFavoriteBooks();
+        ArrayList<Book> favoriteBooks = Utils.getBookList(BookType.FavoriteBooks);
 
         AtomicBoolean existInFavoriteBooks = new AtomicBoolean(false);
 
@@ -181,7 +182,7 @@ public class BookActivity extends AppCompatActivity {
             btnAddToFavoriteBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToFavoriteBooks(book)) {
+                    if (Utils.addToBookList(book, BookType.FavoriteBooks)) {
                         Toast.makeText(BookActivity.this, "Added to favorite", Toast.LENGTH_SHORT).show();
                         btnAddToFavoriteBooks.setEnabled(false);
                     } else {
@@ -214,7 +215,7 @@ public class BookActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
-                                long result = myDB.deleteBook(bookId);
+                                long result = myDB.deleteData(bookId);
 
                                 if (result != -1) {
                                     Toast.makeText(BookActivity.this, R.string.delete_success, Toast.LENGTH_SHORT).show();

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
+import com.example.mylibrary.constants.BookType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class FinishedBooksActivity extends AppCompatActivity {
         finishedBooksRecView.setAdapter(finishedBooksRecViewAdapter);
         finishedBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        finishedBooksRecViewAdapter.setBookList(Utils.getFinishedBooks());
+        finishedBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FinishedBooks));
     }
 
     @Override
