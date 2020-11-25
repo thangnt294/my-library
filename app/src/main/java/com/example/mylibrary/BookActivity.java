@@ -60,17 +60,19 @@ public class BookActivity extends AppCompatActivity {
      * Disable the "Add to finished books" button if the book is already finished
      * Add the book to finished books if not
      *
-     * @param book The current book
+     * @param bookId The id of the current book
      */
-    private void handleFinishedBooks(final Book book) {
+    private void handleFinishedBooks(final int bookId) {
         MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
+
+        Utils.fetchBooks(BookType.FinishedBooks);
 
         ArrayList<Book> finishedBooks = Utils.getBookList(BookType.FinishedBooks);
 
         AtomicBoolean existInFinishedBooks = new AtomicBoolean(false);
 
         for (Book finishedBook : finishedBooks) {
-            if (finishedBook.getId() == book.getId()) {
+            if (finishedBook.getId() == bookId) {
                 existInFinishedBooks.set(true);
                 break;
             }
@@ -82,7 +84,8 @@ public class BookActivity extends AppCompatActivity {
             btnAddToFinishedBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToBookList(book, BookType.FinishedBooks)) {
+                    long result = myDB.addToBookTypes(bookId, BookType.FinishedBooks);
+                    if (result != -1) {
                         Toast.makeText(BookActivity.this, "Added to finished books", Toast.LENGTH_SHORT).show();
                         btnAddToFinishedBooks.setEnabled(false);
                     } else {
@@ -96,15 +99,19 @@ public class BookActivity extends AppCompatActivity {
     /**
      * Same logic as the handleFinishedBooks method
      *
-     * @param book The current book
+     * @param bookId The id of the current book
      */
-    private void handleWishListBooks(final Book book) {
+    private void handleWishListBooks(final int bookId) {
+        MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
+
+        Utils.fetchBooks(BookType.WishListBooks);
+
         ArrayList<Book> wishListBooks = Utils.getBookList(BookType.WishListBooks);
 
         AtomicBoolean existInWishListBooks = new AtomicBoolean(false);
 
         for (Book wishListBook : wishListBooks) {
-            if (wishListBook.getId() == book.getId()) {
+            if (wishListBook.getId() == bookId) {
                 existInWishListBooks.set(true);
                 break;
             }
@@ -116,7 +123,8 @@ public class BookActivity extends AppCompatActivity {
             btnAddToWishListBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToBookList(book, BookType.WishListBooks)) {
+                    long result = myDB.addToBookTypes(bookId, BookType.WishListBooks);
+                    if (result != -1) {
                         Toast.makeText(BookActivity.this, "Added to wish list books", Toast.LENGTH_SHORT).show();
                         btnAddToWishListBooks.setEnabled(false);
                     } else {
@@ -277,15 +285,14 @@ public class BookActivity extends AppCompatActivity {
     private void reloadDataByBookId(int bookId) {
         if (bookId != -1) {
             Book book = Utils.getBookById(bookId);
+            handleFinishedBooks(bookId);
+            handleWishListBooks(bookId);
+            handleReadingBooks(bookId);
+            handleFavoriteBooks(bookId);
+            handleEditBook(bookId);
+            handleDeleteBook(bookId);
             if (book != null) {
                 setData(book);
-
-                handleFinishedBooks(book);
-                handleWishListBooks(book);
-                handleReadingBooks(book);
-                handleFavoriteBooks(book);
-                handleEditBook(bookId);
-                handleDeleteBook(bookId);
             }
         }
     }
