@@ -30,7 +30,7 @@ public class Utils {
         finishedBooks = new ArrayList<Book>();
         favoriteBooks = new ArrayList<Book>();
         wishListBooks = new ArrayList<Book>();
-//        addMockBooks();
+        addMockBooks();
 
     }
 
@@ -53,37 +53,21 @@ public class Utils {
     }
 
     public static void fetchBooks(BookType bookType) {
-        Cursor cursor = myDB.getData(BookType.AllBooks);
+        Cursor cursor = myDB.getData(bookType);
         resetBookList(bookType);
-        if (bookType == BookType.AllBooks) {
-            if (cursor.getCount() != 0) {
-                while (cursor.moveToNext()) {
-                    int id = Integer.parseInt(cursor.getString(0));
-                    String title = cursor.getString(1);
-                    String author = cursor.getString(2);
-                    int pages = Integer.parseInt(cursor.getString(3));
-                    String imageUrl = cursor.getString(4);
-                    String shortDesc = cursor.getString(5);
-                    String longDesc = cursor.getString(6);
-                    Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc);
-                    addToBookList(book, BookType.AllBooks);
-                }
-            }
-        } else {
-            // TODO Check how to fetch data from cursor in this case
-            // cursor.getColumnIndex()
-            if (cursor.getCount() != 0) {
-                while (cursor.moveToNext()) {
-                    int id = Integer.parseInt(cursor.getString(0));
-                    String title = cursor.getString(1);
-                    String author = cursor.getString(2);
-                    int pages = Integer.parseInt(cursor.getString(3));
-                    String imageUrl = cursor.getString(4);
-                    String shortDesc = cursor.getString(5);
-                    String longDesc = cursor.getString(6);
-                    Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc);
-                    addToBookList(book, bookType);
-                }
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                int id = bookType == BookType.AllBooks ?
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_ID))) :
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_BOOK_ID)));
+                String title = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_TITLE));
+                String author = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_AUTHOR));
+                int pages = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_PAGES)));
+                String imageUrl = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_IMAGE_URL));
+                String shortDesc = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_SHORT_DESC));
+                String longDesc = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_LONG_DESC));
+                Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc);
+                addToBookList(book, bookType);
             }
         }
     }

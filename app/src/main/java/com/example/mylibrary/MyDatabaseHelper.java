@@ -16,20 +16,20 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MyLibrary";
     private static final int DATABASE_VERSION = 3;
 
-    private static final String ALL_BOOKS = "all_books";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_TITLE = "book_title";
-    private static final String COLUMN_AUTHOR = "book_author";
-    private static final String COLUMN_PAGES = "book_pages";
-    private static final String COLUMN_IMAGE_URL = "book_image_url";
-    private static final String COLUMN_SHORT_DESC = "book_short_desc";
-    private static final String COLUMN_LONG_DESC = "book_long_desc";
+    public static final String ALL_BOOKS = "all_books";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_TITLE = "book_title";
+    public static final String COLUMN_AUTHOR = "book_author";
+    public static final String COLUMN_PAGES = "book_pages";
+    public static final String COLUMN_IMAGE_URL = "book_image_url";
+    public static final String COLUMN_SHORT_DESC = "book_short_desc";
+    public static final String COLUMN_LONG_DESC = "book_long_desc";
 
-    private static final String FAVORITE_BOOKS = "favorite_books";
-    private static final String READING_BOOKS = "reading_books";
-    private static final String FINISHED_BOOKS = "finished_books";
-    private static final String WISH_LIST_BOOKS = "wish_list_books";
-    private static final String COLUMN_BOOK_ID = "book_id";
+    public static final String FAVORITE_BOOKS = "favorite_books";
+    public static final String READING_BOOKS = "reading_books";
+    public static final String FINISHED_BOOKS = "finished_books";
+    public static final String WISH_LIST_BOOKS = "wish_list_books";
+    public static final String COLUMN_BOOK_ID = "book_id";
 
     public MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -96,6 +96,23 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_LONG_DESC, book.getLongDesc());
 
         return db.insert(ALL_BOOKS, null, cv);
+    }
+
+    public long addToBookTypes(int bookId, BookType bookType) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_BOOK_ID, bookId);
+
+        if (bookType == BookType.FavoriteBooks) {
+            return db.insert(FAVORITE_BOOKS, null, cv);
+        } else if (bookType == BookType.FinishedBooks) {
+            return db.insert(FINISHED_BOOKS, null, cv);
+        } else if (bookType == BookType.ReadingBooks) {
+            return db.insert(READING_BOOKS, null, cv);
+        } else {
+            return db.insert(WISH_LIST_BOOKS, null, cv);
+        }
     }
 
     public long updateData(Book book) {

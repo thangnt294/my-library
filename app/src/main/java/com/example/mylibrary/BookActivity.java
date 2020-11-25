@@ -63,6 +63,8 @@ public class BookActivity extends AppCompatActivity {
      * @param book The current book
      */
     private void handleFinishedBooks(final Book book) {
+        MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
+
         ArrayList<Book> finishedBooks = Utils.getBookList(BookType.FinishedBooks);
 
         AtomicBoolean existInFinishedBooks = new AtomicBoolean(false);
