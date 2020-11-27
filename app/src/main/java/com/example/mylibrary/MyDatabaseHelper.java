@@ -98,23 +98,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return db.insert(ALL_BOOKS, null, cv);
     }
 
-    public long addToBookTypes(int bookId, BookType bookType) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_BOOK_ID, bookId);
-
-        if (bookType == BookType.FavoriteBooks) {
-            return db.insert(FAVORITE_BOOKS, null, cv);
-        } else if (bookType == BookType.FinishedBooks) {
-            return db.insert(FINISHED_BOOKS, null, cv);
-        } else if (bookType == BookType.ReadingBooks) {
-            return db.insert(READING_BOOKS, null, cv);
-        } else {
-            return db.insert(WISH_LIST_BOOKS, null, cv);
-        }
-    }
-
     public long updateData(Book book) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -126,7 +109,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_SHORT_DESC, book.getShortDesc());
         cv.put(COLUMN_LONG_DESC, book.getLongDesc());
 
-        return db.update(ALL_BOOKS, cv, "id=?", new String[]{Integer.toString(book.getId())});
+        return db.update(ALL_BOOKS, cv, COLUMN_ID + "=?", new String[]{Integer.toString(book.getId())});
     }
 
     Cursor getData(BookType bookType) {
@@ -162,6 +145,37 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public long deleteData(int bookId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(ALL_BOOKS, "id=?", new String[]{Integer.toString(bookId)});
+        return db.delete(ALL_BOOKS, COLUMN_ID + "=?", new String[]{Integer.toString(bookId)});
+    }
+
+    public long addToBookTypes(int bookId, BookType bookType) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_BOOK_ID, bookId);
+
+        if (bookType == BookType.FavoriteBooks) {
+            return db.insert(FAVORITE_BOOKS, null, cv);
+        } else if (bookType == BookType.FinishedBooks) {
+            return db.insert(FINISHED_BOOKS, null, cv);
+        } else if (bookType == BookType.ReadingBooks) {
+            return db.insert(READING_BOOKS, null, cv);
+        } else {
+            return db.insert(WISH_LIST_BOOKS, null, cv);
+        }
+    }
+
+    public long removeFromBookTypes(int bookId, BookType bookType) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if (bookType == BookType.FavoriteBooks) {
+            return db.delete(FAVORITE_BOOKS, COLUMN_BOOK_ID + "=?", new String[]{Integer.toString(bookId)});
+        } else if (bookType == BookType.FinishedBooks) {
+            return db.delete(FINISHED_BOOKS, COLUMN_BOOK_ID + "=?", new String[]{Integer.toString(bookId)});
+        } else if (bookType == BookType.ReadingBooks) {
+            return db.delete(READING_BOOKS, COLUMN_BOOK_ID + "=?", new String[]{Integer.toString(bookId)});
+        } else {
+            return db.delete(WISH_LIST_BOOKS, COLUMN_BOOK_ID + "=?", new String[]{Integer.toString(bookId)});
+        }
     }
 }

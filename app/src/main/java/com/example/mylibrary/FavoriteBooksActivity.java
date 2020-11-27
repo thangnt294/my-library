@@ -33,6 +33,7 @@ public class FavoriteBooksActivity extends AppCompatActivity{
         favoriteBooksRecView.setAdapter(favoriteBooksRecViewAdapter);
         favoriteBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
+        Utils.fetchBooks(BookType.FavoriteBooks);
         favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
 
     }
@@ -50,5 +51,12 @@ public class FavoriteBooksActivity extends AppCompatActivity{
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.fetchBooks(BookType.FavoriteBooks);
+        favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
     }
 }

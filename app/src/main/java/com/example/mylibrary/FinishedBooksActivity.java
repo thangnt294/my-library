@@ -32,6 +32,7 @@ public class FinishedBooksActivity extends AppCompatActivity {
         finishedBooksRecView.setAdapter(finishedBooksRecViewAdapter);
         finishedBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
+        Utils.fetchBooks(BookType.FinishedBooks);
         finishedBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FinishedBooks));
     }
 
@@ -48,6 +49,13 @@ public class FinishedBooksActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.fetchBooks(BookType.FinishedBooks);
+        finishedBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FinishedBooks));
     }
 
 }

@@ -106,10 +106,11 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    boolean removedSuccessfully = removeBookFromParentActivity(currentBook);
+                                    boolean removedSuccessfully = removeBookFromParentActivity(currentBook.getId());
 
                                     if (removedSuccessfully) {
                                         Toast.makeText(mContext, currentBook.getTitle() + " has been removed", Toast.LENGTH_SHORT).show();
+                                        fetchBooksAfterRemoval(parentActivity);
                                         notifyDataSetChanged();
                                     } else {
                                         Toast.makeText(mContext, "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
@@ -126,20 +127,33 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
         }
     }
 
-    private boolean removeBookFromParentActivity(Book currentBook) {
+    private boolean removeBookFromParentActivity(int bookId) {
+        MyDatabaseHelper myDB = new MyDatabaseHelper(mContext);
         boolean result = false;
 
         if (parentActivity.equals(ActivityType.ReadingBooksActivity)) {
-            result = Utils.removeFromBookList(currentBook, BookType.ReadingBooks);
+            result = myDB.removeFromBookTypes(bookId, BookType.ReadingBooks) != -1;
         } else if (parentActivity.equals(ActivityType.FinishedBooksActivity)) {
-            result = Utils.removeFromBookList(currentBook, BookType.FinishedBooks);
+            result = myDB.removeFromBookTypes(bookId, BookType.FinishedBooks) != -1;
         } else if (parentActivity.equals(ActivityType.FavoriteBooksActivity)) {
-            result = Utils.removeFromBookList(currentBook, BookType.FavoriteBooks);
+            result = myDB.removeFromBookTypes(bookId, BookType.FavoriteBooks) != -1;
         } else if (parentActivity.equals(ActivityType.WishListBooksActivity)) {
-            result = Utils.removeFromBookList(currentBook, BookType.WishListBooks);
+            result = myDB.removeFromBookTypes(bookId, BookType.WishListBooks) != -1;
         }
 
         return result;
+    }
+
+    private void fetchBooksAfterRemoval(ActivityType parentActivity) {
+        if (parentActivity.equals(ActivityType.ReadingBooksActivity)) {
+            Utils.fetchBooks(BookType.ReadingBooks);
+        } else if (parentActivity.equals(ActivityType.FinishedBooksActivity)) {
+            Utils.fetchBooks(BookType.FinishedBooks);
+        } else if (parentActivity.equals(ActivityType.FavoriteBooksActivity)) {
+            Utils.fetchBooks(BookType.FavoriteBooks);
+        } else if (parentActivity.equals(ActivityType.WishListBooksActivity)) {
+            Utils.fetchBooks(BookType.WishListBooks);
+        }
     }
 
     public void setBookList(ArrayList<Book> bookList) {

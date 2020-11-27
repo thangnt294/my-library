@@ -138,15 +138,19 @@ public class BookActivity extends AppCompatActivity {
     /**
      * Same logic as the handleFinishedBooks method
      *
-     * @param book The current book
+     * @param bookId The id of the current book
      */
-    private void handleReadingBooks(final Book book) {
+    private void handleReadingBooks(final int bookId) {
+        MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
+
+        Utils.fetchBooks(BookType.ReadingBooks);
+
         ArrayList<Book> readingBooks = Utils.getBookList(BookType.ReadingBooks);
 
         AtomicBoolean existInReadingBooks = new AtomicBoolean(false);
 
         for (Book readingBook : readingBooks) {
-            if (readingBook.getId() == book.getId()) {
+            if (readingBook.getId() == bookId) {
                 existInReadingBooks.set(true);
                 break;
             }
@@ -158,7 +162,8 @@ public class BookActivity extends AppCompatActivity {
             btnAddToReadingBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToBookList(book, BookType.ReadingBooks)) {
+                    long result = myDB.addToBookTypes(bookId, BookType.ReadingBooks);
+                    if (result != -1) {
                         Toast.makeText(BookActivity.this, "Added to reading books", Toast.LENGTH_SHORT).show();
                         btnAddToReadingBooks.setEnabled(false);
                     } else {
@@ -172,15 +177,19 @@ public class BookActivity extends AppCompatActivity {
     /**
      * Same logic as the handleFinishedBooks method
      *
-     * @param book The current book
+     * @param bookId The id of the current book
      */
-    private void handleFavoriteBooks(final Book book) {
+    private void handleFavoriteBooks(final int bookId) {
+        MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
+
+        Utils.fetchBooks(BookType.FavoriteBooks);
+
         ArrayList<Book> favoriteBooks = Utils.getBookList(BookType.FavoriteBooks);
 
         AtomicBoolean existInFavoriteBooks = new AtomicBoolean(false);
 
         for (Book favoriteBook : favoriteBooks) {
-            if (favoriteBook.getId() == book.getId()) {
+            if (favoriteBook.getId() == bookId) {
                 existInFavoriteBooks.set(true);
                 break;
             }
@@ -192,7 +201,8 @@ public class BookActivity extends AppCompatActivity {
             btnAddToFavoriteBooks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.addToBookList(book, BookType.FavoriteBooks)) {
+                    long result = myDB.addToBookTypes(bookId, BookType.FavoriteBooks);
+                    if (result != -1) {
                         Toast.makeText(BookActivity.this, "Added to favorite", Toast.LENGTH_SHORT).show();
                         btnAddToFavoriteBooks.setEnabled(false);
                     } else {

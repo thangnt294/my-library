@@ -32,6 +32,7 @@ public class ReadingBooksActivity extends AppCompatActivity {
         readingBooksRecView.setAdapter(readingBooksRecViewAdapter);
         readingBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
+        Utils.fetchBooks(BookType.ReadingBooks);
         readingBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.ReadingBooks));
     }
 
@@ -50,4 +51,10 @@ public class ReadingBooksActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.fetchBooks(BookType.ReadingBooks);
+        readingBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.ReadingBooks));
+    }
 }

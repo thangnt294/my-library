@@ -32,6 +32,7 @@ public class WishListBooksActivity extends AppCompatActivity {
         wishListBooksRecView.setAdapter(wishListBooksRecViewAdapter);
         wishListBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
+        Utils.fetchBooks(BookType.WishListBooks);
         wishListBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.WishListBooks));
     }
 
@@ -48,5 +49,12 @@ public class WishListBooksActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.fetchBooks(BookType.WishListBooks);
+        wishListBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.WishListBooks));
     }
 }
