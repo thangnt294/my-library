@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -24,6 +25,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_IMAGE_URL = "book_image_url";
     public static final String COLUMN_SHORT_DESC = "book_short_desc";
     public static final String COLUMN_LONG_DESC = "book_long_desc";
+    public static final String COLUMN_GENRE = "book_genre";
 
     public static final String FAVORITE_BOOKS = "favorite_books";
     public static final String READING_BOOKS = "reading_books";
@@ -44,6 +46,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_PAGES + " INTEGER, " +
                 COLUMN_IMAGE_URL + " TEXT, " +
                 COLUMN_SHORT_DESC + " TEXT, " +
+                COLUMN_GENRE + " TEXT, " +
                 COLUMN_LONG_DESC + " TEXT);";
         String favoriteBooksQuery = "CREATE TABLE " + FAVORITE_BOOKS +
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -112,7 +115,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return db.update(ALL_BOOKS, cv, COLUMN_ID + "=?", new String[]{Integer.toString(book.getId())});
     }
 
-    Cursor getData(BookType bookType) {
+    Cursor getData(BookType bookType, Genre genre) {
         String tableName, query;
 
         // Populate query
@@ -132,6 +135,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                     " INNER JOIN " + ALL_BOOKS + " ON " +
                     tableName + "." + COLUMN_BOOK_ID + " = " +
                     ALL_BOOKS + "." + COLUMN_ID;
+        }
+
+        if (genre != null) {
+            query += " WHERE book_genre=" + genre;
         }
 
         SQLiteDatabase db = this.getReadableDatabase();
