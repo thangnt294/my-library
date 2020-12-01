@@ -15,7 +15,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
     private static final String DATABASE_NAME = "MyLibrary";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     public static final String ALL_BOOKS = "all_books";
     public static final String COLUMN_ID = "id";
@@ -97,6 +97,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_IMAGE_URL, book.getImageUrl());
         cv.put(COLUMN_SHORT_DESC, book.getShortDesc());
         cv.put(COLUMN_LONG_DESC, book.getLongDesc());
+        cv.put(COLUMN_GENRE, book.getGenre());
 
         return db.insert(ALL_BOOKS, null, cv);
     }
@@ -111,6 +112,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_IMAGE_URL, book.getImageUrl());
         cv.put(COLUMN_SHORT_DESC, book.getShortDesc());
         cv.put(COLUMN_LONG_DESC, book.getLongDesc());
+        cv.put(COLUMN_GENRE, book.getGenre());
 
         return db.update(ALL_BOOKS, cv, COLUMN_ID + "=?", new String[]{Integer.toString(book.getId())});
     }
@@ -137,8 +139,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                     ALL_BOOKS + "." + COLUMN_ID;
         }
 
-        if (genre != null) {
-            query += " WHERE book_genre=" + genre;
+        if (genre != null && genre != Genre.ALL) {
+            query += " WHERE book_genre='" + genre.getValue() + "'";
         }
 
         SQLiteDatabase db = this.getReadableDatabase();

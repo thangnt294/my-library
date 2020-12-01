@@ -21,6 +21,7 @@ public class SpinnerUtils {
     }
 
     private static void populateGenres() {
+        genres.add(Genre.ALL.getValue());
         genres.add(Genre.ADVENTURE.getValue());
         genres.add(Genre.GUIDE.getValue());
         genres.add(Genre.ART.getValue());

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
 
 import java.util.ArrayList;
 
@@ -52,8 +53,8 @@ public class Utils {
         return null;
     }
 
-    public static void fetchBooks(BookType bookType) {
-        Cursor cursor = myDB.getData(bookType);
+    public static void fetchBooks(BookType bookType, Genre genre) {
+        Cursor cursor = myDB.getData(bookType, genre);
         resetBookList(bookType);
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
@@ -66,23 +67,24 @@ public class Utils {
                 String imageUrl = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_IMAGE_URL));
                 String shortDesc = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_SHORT_DESC));
                 String longDesc = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_LONG_DESC));
-                Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc);
+                String bookGenre = cursor.getString(cursor.getColumnIndex(MyDatabaseHelper.COLUMN_GENRE));
+                Book book = new Book(id, title, author, pages, imageUrl, shortDesc, longDesc, bookGenre);
                 addToBookList(book, bookType);
             }
         }
     }
 
     public static void addMockBooks() {
-        Cursor cursor = myDB.getData(BookType.AllBooks);
+        Cursor cursor = myDB.getData(BookType.AllBooks, Genre.ALL);
         if (cursor.getCount() == 0) {
             myDB.addData(new Book("1Q84", "Murakami Haruki", 1350, "https://images-na.ssl-images-amazon.com/images/I/41ffQULRlxL._SX298_BO1,204,203,200_.jpg",
-                    "A work of maddening brilliance", "The very thought of Aomame's situation will pain anyone stuck in the quicksand of “1Q84.” You, sucker, will wade through nearly 1,000 uneventful pages while discovering a Tokyo that has two moons and is controlled by creatures that emerge from the mouth of a dead goat."));
+                    "A work of maddening brilliance", "The very thought of Aomame's situation will pain anyone stuck in the quicksand of “1Q84.” You, sucker, will wade through nearly 1,000 uneventful pages while discovering a Tokyo that has two moons and is controlled by creatures that emerge from the mouth of a dead goat.", Genre.MYSTERY.getValue()));
             myDB.addData(new Book("Chess endgame study", "A.J.Roy Croft", 250, "https://kbimages1-a.akamaihd.net/6630cf6b-d534-45d9-a27b-ae022b6b3bdc/1200/1200/False/the-chess-endgame-study-1.jpg",
-                    "A must-read book for any chess players", "The endgame study, like the chess problem, eliminates over-the-board competition to concentrate on an invented endgame position carefully plotted to fox, bewilder, challenge, and otherwise stimulate the solver."));
+                    "A must-read book for any chess players", "The endgame study, like the chess problem, eliminates over-the-board competition to concentrate on an invented endgame position carefully plotted to fox, bewilder, challenge, and otherwise stimulate the solver.", Genre.GUIDE.getValue()));
             myDB.addData(new Book("Moby Dick", "Herman MelVille", 927, "https://kbimages1-a.akamaihd.net/ae25aaf3-7841-4b90-a175-8e55ca639064/1200/1200/False/moby-dick-222.jpg",
-                    "The book of this century", "Moby-Dick is about everything, a bible written in scrimshaw, an adventure spun in allegory, a taxonomy tripping on acid. It seems to exist outside its own time, much like Don Quixote and Tristram Shandy, the poetry of Emily Dickinson. It is so broad and so deep as to accept any interpretation while also staring back and mocking this man-made desire toward interpretation."));
+                    "The book of this century", "Moby-Dick is about everything, a bible written in scrimshaw, an adventure spun in allegory, a taxonomy tripping on acid. It seems to exist outside its own time, much like Don Quixote and Tristram Shandy, the poetry of Emily Dickinson. It is so broad and so deep as to accept any interpretation while also staring back and mocking this man-made desire toward interpretation.", Genre.ADVENTURE.getValue()));
             myDB.addData(new Book("To kill a mockingbird", "Harper Lee", 281, "https://images-na.ssl-images-amazon.com/images/I/81gepf1eMqL.jpg",
-                    "A classic of modern American literature", "Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos."));
+                    "A classic of modern American literature", "Compassionate, dramatic, and deeply moving, To Kill A Mockingbird takes readers to the roots of human behavior - to innocence and experience, kindness and cruelty, love and hatred, humor and pathos.", Genre.FANTASY.getValue()));
         }
     }
 

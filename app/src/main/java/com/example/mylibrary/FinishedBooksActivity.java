@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public class FinishedBooksActivity extends AppCompatActivity {
         finishedBooksRecView.setAdapter(finishedBooksRecViewAdapter);
         finishedBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        Utils.fetchBooks(BookType.FinishedBooks);
+        Utils.fetchBooks(BookType.FinishedBooks, Genre.ALL);
         finishedBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FinishedBooks));
     }
 
@@ -54,7 +55,7 @@ public class FinishedBooksActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.fetchBooks(BookType.FinishedBooks);
+        Utils.fetchBooks(BookType.FinishedBooks, Genre.ALL);
         finishedBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FinishedBooks));
     }
 

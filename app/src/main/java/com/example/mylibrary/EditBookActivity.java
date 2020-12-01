@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
@@ -61,6 +60,7 @@ public class EditBookActivity extends AppCompatActivity {
 
         // Set spinner values
         ArrayList<String> genres = SpinnerUtils.getGenres();
+        genres.remove(Genre.ALL.getValue());
         ArrayAdapter<String> genresAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, genres);
         genreSpinner.setAdapter(genresAdapter);
 
@@ -95,40 +95,57 @@ public class EditBookActivity extends AppCompatActivity {
         imageUrl.setText(book.getImageUrl());
         shortDesc.setText(book.getShortDesc());
         longDesc.setText(book.getLongDesc());
-        genreSpinner.setSelection();
+        genreSpinner.setSelection(this.getSpinnerPosition(book.getGenre()));
     }
 
-    //TODO get spinner position based on the book's spinner
     public int getSpinnerPosition(String genre) {
-        switch genre {
-            case (Genre.ADVENTURE.getValue()):
-                return 1;
-                break;
-            default:
-                break;
+        if (genre.equals(Genre.ADVENTURE.getValue())) {
+            return 1;
+        } else if (genre.equals(Genre.GUIDE.getValue())) {
+            return 2;
+        } else if (genre.equals(Genre.ART.getValue())) {
+            return 3;
+        } else if (genre.equals(Genre.CHILDREN.getValue())) {
+            return 4;
+        } else if (genre.equals(Genre.CONTEMPORARY.getValue())) {
+            return 5;
+        } else if (genre.equals(Genre.COOKING.getValue())) {
+            return 6;
+        } else if (genre.equals(Genre.HISTORICAL_FICTION.getValue())) {
+            return 7;
+        } else if (genre.equals(Genre.ROMANCE.getValue())) {
+            return 8;
+        } else if (genre.equals(Genre.SCIENCE_FICTION.getValue())) {
+            return 9;
+        } else if (genre.equals(Genre.HEALTH.getValue())) {
+            return 10;
+        } else if (genre.equals(Genre.HISTORY.getValue())) {
+            return 11;
+        } else if (genre.equals(Genre.HORROR.getValue())) {
+            return 12;
+        } else if (genre.equals(Genre.HUMOR.getValue())) {
+            return 13;
+        } else if (genre.equals(Genre.SELF_HELP.getValue())) {
+            return 14;
+        } else if (genre.equals(Genre.DEVELOPMENT.getValue())) {
+            return 15;
+        } else if (genre.equals(Genre.FANTASY.getValue())) {
+            return 16;
+        } else if (genre.equals(Genre.MOTIVATIONAL.getValue())) {
+            return 17;
+        } else if (genre.equals(Genre.PARANORMAL.getValue())) {
+            return 18;
+        } else if (genre.equals(Genre.TRAVEL.getValue())) {
+            return 19;
+        } else if (genre.equals(Genre.MEMOIR.getValue())) {
+            return 20;
+        } else if (genre.equals(Genre.MYSTERY.getValue())) {
+            return 21;
+        } else if (genre.equals(Genre.THRILLER.getValue())) {
+            return 22;
+        } else {
+            return 0;
         }
-        genres.add();
-        genres.add(Genre.GUIDE.getValue());
-        genres.add(Genre.ART.getValue());
-        genres.add(Genre.CHILDREN.getValue());
-        genres.add(Genre.CONTEMPORARY.getValue());
-        genres.add(Genre.COOKING.getValue());
-        genres.add(Genre.HISTORICAL_FICTION.getValue());
-        genres.add(Genre.ROMANCE.getValue());
-        genres.add(Genre.SCIENCE_FICTION.getValue());
-        genres.add(Genre.HEALTH.getValue());
-        genres.add(Genre.HISTORY.getValue());
-        genres.add(Genre.HORROR.getValue());
-        genres.add(Genre.HUMOR.getValue());
-        genres.add(Genre.SELF_HELP.getValue());
-        genres.add(Genre.DEVELOPMENT.getValue());
-        genres.add(Genre.FANTASY.getValue());
-        genres.add(Genre.MOTIVATIONAL.getValue());
-        genres.add(Genre.PARANORMAL.getValue());
-        genres.add(Genre.TRAVEL.getValue());
-        genres.add(Genre.MEMOIR.getValue());
-        genres.add(Genre.MYSTERY.getValue());
-        genres.add(Genre.THRILLER.getValue());
     }
 
     public void handleButton() {
@@ -155,7 +172,7 @@ public class EditBookActivity extends AppCompatActivity {
                 if (result == -1) {
                     setResult(2, resultIntent);
                 } else {
-                    Utils.fetchBooks(BookType.AllBooks);
+                    Utils.fetchBooks(BookType.AllBooks, Genre.ALL);
                     setResult(Activity.RESULT_OK, resultIntent);
                 }
                 finish();

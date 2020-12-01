@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -33,7 +34,7 @@ public class FavoriteBooksActivity extends AppCompatActivity{
         favoriteBooksRecView.setAdapter(favoriteBooksRecViewAdapter);
         favoriteBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        Utils.fetchBooks(BookType.FavoriteBooks);
+        Utils.fetchBooks(BookType.FavoriteBooks, Genre.ALL);
         favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
 
     }
@@ -56,7 +57,7 @@ public class FavoriteBooksActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.fetchBooks(BookType.FavoriteBooks);
+        Utils.fetchBooks(BookType.FavoriteBooks, Genre.ALL);
         favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
     }
 }

@@ -21,6 +21,7 @@ import androidx.transition.TransitionManager;
 import com.bumptech.glide.Glide;
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
 
 import java.util.ArrayList;
 
@@ -146,13 +147,13 @@ public class BooksRecViewAdapter extends RecyclerView.Adapter<BooksRecViewAdapte
 
     private void fetchBooksAfterRemoval(ActivityType parentActivity) {
         if (parentActivity.equals(ActivityType.ReadingBooksActivity)) {
-            Utils.fetchBooks(BookType.ReadingBooks);
+            Utils.fetchBooks(BookType.ReadingBooks, Genre.ALL);
         } else if (parentActivity.equals(ActivityType.FinishedBooksActivity)) {
-            Utils.fetchBooks(BookType.FinishedBooks);
+            Utils.fetchBooks(BookType.FinishedBooks, Genre.ALL);
         } else if (parentActivity.equals(ActivityType.FavoriteBooksActivity)) {
-            Utils.fetchBooks(BookType.FavoriteBooks);
+            Utils.fetchBooks(BookType.FavoriteBooks, Genre.ALL);
         } else if (parentActivity.equals(ActivityType.WishListBooksActivity)) {
-            Utils.fetchBooks(BookType.WishListBooks);
+            Utils.fetchBooks(BookType.WishListBooks, Genre.ALL);
         }
     }
 

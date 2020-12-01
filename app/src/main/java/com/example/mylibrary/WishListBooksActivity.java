@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public class WishListBooksActivity extends AppCompatActivity {
         wishListBooksRecView.setAdapter(wishListBooksRecViewAdapter);
         wishListBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        Utils.fetchBooks(BookType.WishListBooks);
+        Utils.fetchBooks(BookType.WishListBooks, Genre.ALL);
         wishListBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.WishListBooks));
     }
 
@@ -54,7 +55,7 @@ public class WishListBooksActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.fetchBooks(BookType.WishListBooks);
+        Utils.fetchBooks(BookType.WishListBooks, Genre.ALL);
         wishListBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.WishListBooks));
     }
 }

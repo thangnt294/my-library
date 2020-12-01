@@ -116,6 +116,7 @@ public class Book {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", shortDesc='" + shortDesc + '\'' +
                 ", longDesc='" + longDesc + '\'' +
+                ". genre='" + genre + '\'' +
                 '}';
     }
 }

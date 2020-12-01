@@ -22,7 +22,8 @@ public enum Genre {
     TRAVEL("Travel"),
     GUIDE("Guide"),
     HUMOR("Humor"),
-    CHILDREN("Children");
+    CHILDREN("Children"),
+    ALL("All");
 
     private String value;
 
