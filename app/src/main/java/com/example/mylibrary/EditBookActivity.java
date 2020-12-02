@@ -33,6 +33,7 @@ public class EditBookActivity extends AppCompatActivity {
     public static final String LONG_DESC = "longDesc";
 
     private EditText title, author, pages, imageUrl, shortDesc, longDesc;
+    private TextView genre;
     private ActivityType activityType;
     private Spinner genreSpinner;
     private Button btnConfirm, btnCancel;
@@ -49,6 +50,7 @@ public class EditBookActivity extends AppCompatActivity {
         imageUrl = findViewById(R.id.txt_book_image_url);
         shortDesc = findViewById(R.id.txt_book_short_desc);
         longDesc = findViewById(R.id.txt_book_long_desc);
+        genre = findViewById(R.id.txt_genre);
         genreSpinner = (Spinner) findViewById(R.id.genre_spinner);
         TextView editBookTitle = findViewById(R.id.txt_edit_book_title);
 
@@ -69,12 +71,15 @@ public class EditBookActivity extends AppCompatActivity {
         if (intent != null) {
             activityType = (ActivityType) intent.getSerializableExtra(ACTIVITY_TYPE);
             if (activityType == ActivityType.UpdateBookActivity) {
+                // Change layout
                 editBookTitle.setText(R.string.edit_book);
+
                 bookId = intent.getIntExtra(BookActivity.BOOK_ID_KEY, -1);
                 if (bookId != -1) {
                     Book book = Utils.getBookById(bookId);
                     if (book != null) {
-                        setBookData(book);
+                        int genrePosition = genresAdapter.getPosition(book.getGenre());
+                        setBookData(book, genrePosition);
                     }
                 }
             } else {
@@ -88,64 +93,14 @@ public class EditBookActivity extends AppCompatActivity {
 
     }
 
-    public void setBookData(Book book) {
+    public void setBookData(Book book, int genrePosition) {
         title.setText(book.getTitle());
         author.setText(book.getAuthor());
         pages.setText(Integer.toString(book.getPages()));
         imageUrl.setText(book.getImageUrl());
         shortDesc.setText(book.getShortDesc());
         longDesc.setText(book.getLongDesc());
-        genreSpinner.setSelection(this.getSpinnerPosition(book.getGenre()));
-    }
-
-    public int getSpinnerPosition(String genre) {
-        if (genre.equals(Genre.ADVENTURE.getValue())) {
-            return 1;
-        } else if (genre.equals(Genre.GUIDE.getValue())) {
-            return 2;
-        } else if (genre.equals(Genre.ART.getValue())) {
-            return 3;
-        } else if (genre.equals(Genre.CHILDREN.getValue())) {
-            return 4;
-        } else if (genre.equals(Genre.CONTEMPORARY.getValue())) {
-            return 5;
-        } else if (genre.equals(Genre.COOKING.getValue())) {
-            return 6;
-        } else if (genre.equals(Genre.HISTORICAL_FICTION.getValue())) {
-            return 7;
-        } else if (genre.equals(Genre.ROMANCE.getValue())) {
-            return 8;
-        } else if (genre.equals(Genre.SCIENCE_FICTION.getValue())) {
-            return 9;
-        } else if (genre.equals(Genre.HEALTH.getValue())) {
-            return 10;
-        } else if (genre.equals(Genre.HISTORY.getValue())) {
-            return 11;
-        } else if (genre.equals(Genre.HORROR.getValue())) {
-            return 12;
-        } else if (genre.equals(Genre.HUMOR.getValue())) {
-            return 13;
-        } else if (genre.equals(Genre.SELF_HELP.getValue())) {
-            return 14;
-        } else if (genre.equals(Genre.DEVELOPMENT.getValue())) {
-            return 15;
-        } else if (genre.equals(Genre.FANTASY.getValue())) {
-            return 16;
-        } else if (genre.equals(Genre.MOTIVATIONAL.getValue())) {
-            return 17;
-        } else if (genre.equals(Genre.PARANORMAL.getValue())) {
-            return 18;
-        } else if (genre.equals(Genre.TRAVEL.getValue())) {
-            return 19;
-        } else if (genre.equals(Genre.MEMOIR.getValue())) {
-            return 20;
-        } else if (genre.equals(Genre.MYSTERY.getValue())) {
-            return 21;
-        } else if (genre.equals(Genre.THRILLER.getValue())) {
-            return 22;
-        } else {
-            return 0;
-        }
+        genreSpinner.setSelection(genrePosition);
     }
 
     public void handleButton() {

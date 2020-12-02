@@ -9,12 +9,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/booksRecView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="600dp"
         android:layout_margin="15dp"
         android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allBooksGenreSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/allBooksGenreSpinner"
+        app:layout_constraintVertical_bias="0.012" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_book"
@@ -36,7 +39,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.622"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/genre"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/allBooksGenreSpinner"
+        app:layout_constraintEnd_toStartOf="@+id/allBooksGenreSpinner"
+        app:layout_constraintTop_toTopOf="@+id/allBooksGenreSpinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
