@@ -9,9 +9,32 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/wishListBooksRecView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="600dp"
+        android:layout_margin="15dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/wishListBooksGenreSpinner"/>
+
+    <Spinner
+        android:id="@+id/wishListBooksGenreSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="0.622"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/genre"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/wishListBooksGenreSpinner"
+        app:layout_constraintEnd_toStartOf="@+id/wishListBooksGenreSpinner"
+        app:layout_constraintTop_toTopOf="@+id/wishListBooksGenreSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

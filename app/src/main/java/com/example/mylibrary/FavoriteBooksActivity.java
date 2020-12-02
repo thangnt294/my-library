@@ -7,10 +7,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
+import com.example.mylibrary.utils.SpinnerUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -18,6 +25,7 @@ import java.util.Objects;
 public class FavoriteBooksActivity extends AppCompatActivity{
 
     private RecyclerView favoriteBooksRecView;
+    private Spinner favoriteBooksGenreSpinner;
     private BooksRecViewAdapter favoriteBooksRecViewAdapter;
 
     @Override
@@ -28,12 +36,30 @@ public class FavoriteBooksActivity extends AppCompatActivity{
         // Enable the back button on top of the screen
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        favoriteBooksGenreSpinner = (Spinner) findViewById(R.id.favoriteBooksGenreSpinner);
+        ArrayList<String> genres = SpinnerUtils.getGenres();
+        ArrayAdapter<String> genresAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, genres);
+        favoriteBooksGenreSpinner.setAdapter(genresAdapter);
+
+        favoriteBooksGenreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Utils.fetchBooks(BookType.FavoriteBooks, Genre.valueOf(TextUtils.join("_", genres.get(position).toUpperCase().split(" "))));
+                favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         favoriteBooksRecView = findViewById(R.id.favoriteBooksRecView);
         favoriteBooksRecViewAdapter = new BooksRecViewAdapter(this, ActivityType.FavoriteBooksActivity);
         favoriteBooksRecView.setAdapter(favoriteBooksRecViewAdapter);
         favoriteBooksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        Utils.fetchBooks(BookType.FavoriteBooks);
+        Utils.fetchBooks(BookType.FavoriteBooks, Genre.ALL);
         favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
 
     }
@@ -56,7 +82,8 @@ public class FavoriteBooksActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.fetchBooks(BookType.FavoriteBooks);
+        Utils.fetchBooks(BookType.FavoriteBooks, Genre.ALL);
         favoriteBooksRecViewAdapter.setBookList(Utils.getBookList(BookType.FavoriteBooks));
+        favoriteBooksGenreSpinner.setSelection(0);
     }
 }

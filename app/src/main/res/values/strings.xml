@@ -13,6 +13,7 @@
     <string name="logo_description">App Logo</string>
     <string name="author">Author:</string>
     <string name="pages">Pages:</string>
+    <string name="genre">Genre:</string>
     <string name="author_name">Thang</string>
     <string name="number">150</string>
     <string name="short_desc">Description:</string>
@@ -36,6 +37,7 @@
     <string name="image_url_add">Image URL</string>
     <string name="short_desc_add">Short description</string>
     <string name="long_desc_add">Long description</string>
+    <string name="genre_add">Genre:</string>
 
     <string name="general_error">Something went wrong. Please try again later.</string>
     <string name="update_success">Updated successfully</string>

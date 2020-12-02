@@ -21,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.bumptech.glide.Glide;
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class BookActivity extends AppCompatActivity {
 
     public static final String BOOK_ID_KEY = "bookId";
 
-    private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtLongDescInfo;
+    private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtGenreInfo, txtLongDescInfo;
     private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks, btnEdit, btnDelete;
     private ConstraintLayout bookLayout;
     private RelativeLayout emptyLayout;
@@ -65,7 +66,7 @@ public class BookActivity extends AppCompatActivity {
     private void handleFinishedBooks(final int bookId) {
         MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
 
-        Utils.fetchBooks(BookType.FinishedBooks);
+        Utils.fetchBooks(BookType.FinishedBooks, Genre.ALL);
 
         ArrayList<Book> finishedBooks = Utils.getBookList(BookType.FinishedBooks);
 
@@ -104,7 +105,7 @@ public class BookActivity extends AppCompatActivity {
     private void handleWishListBooks(final int bookId) {
         MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
 
-        Utils.fetchBooks(BookType.WishListBooks);
+        Utils.fetchBooks(BookType.WishListBooks, Genre.ALL);
 
         ArrayList<Book> wishListBooks = Utils.getBookList(BookType.WishListBooks);
 
@@ -143,7 +144,7 @@ public class BookActivity extends AppCompatActivity {
     private void handleReadingBooks(final int bookId) {
         MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
 
-        Utils.fetchBooks(BookType.ReadingBooks);
+        Utils.fetchBooks(BookType.ReadingBooks, Genre.ALL);
 
         ArrayList<Book> readingBooks = Utils.getBookList(BookType.ReadingBooks);
 
@@ -182,7 +183,7 @@ public class BookActivity extends AppCompatActivity {
     private void handleFavoriteBooks(final int bookId) {
         MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
 
-        Utils.fetchBooks(BookType.FavoriteBooks);
+        Utils.fetchBooks(BookType.FavoriteBooks, Genre.ALL);
 
         ArrayList<Book> favoriteBooks = Utils.getBookList(BookType.FavoriteBooks);
 
@@ -265,6 +266,7 @@ public class BookActivity extends AppCompatActivity {
         txtAuthorNameInfo.setText(book.getAuthor());
         txtPagesInfo.setText(String.valueOf(book.getPages()));
         txtLongDescInfo.setText(book.getLongDesc());
+        txtGenreInfo.setText(book.getGenre());
         Glide.with(this)
                 .asBitmap()
                 .load(book.getImageUrl())
@@ -277,6 +279,7 @@ public class BookActivity extends AppCompatActivity {
         txtBookTitleInfo = findViewById(R.id.txtBookTitleInfo);
         txtPagesInfo = findViewById(R.id.txtPagesInfo);
         txtLongDescInfo = findViewById(R.id.txtLongDescInfo);
+        txtGenreInfo = findViewById(R.id.txtGenreInfo);
 
         bookLayout = findViewById(R.id.book_layout);
         emptyLayout = findViewById(R.id.empty_layout);

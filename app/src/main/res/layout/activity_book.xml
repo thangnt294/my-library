@@ -133,7 +133,7 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/short_desc"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <TextView
                 android:id="@+id/txtLongDescInfo"
@@ -225,6 +225,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/imgBookInfo"
                 app:layout_constraintVertical_bias="1.0"
                 app:strokeColor="@color/red" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/genre"
+                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/txtGenreInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toTopOf="@+id/textView2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,20 +10,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mylibrary.constants.ActivityType;
 import com.example.mylibrary.constants.BookType;
+import com.example.mylibrary.constants.Genre;
+import com.example.mylibrary.utils.SpinnerUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class AllBooksActivity extends AppCompatActivity {
 
     private RecyclerView booksRecView;
     private BooksRecViewAdapter booksRecViewAdapter;
+    private Spinner allBooksGenreSpinner;
     private FloatingActionButton btnAddBook;
 
 
@@ -45,12 +53,30 @@ public class AllBooksActivity extends AppCompatActivity {
             }
         });
 
+        allBooksGenreSpinner = (Spinner) findViewById(R.id.allBooksGenreSpinner);
+        ArrayList<String> genres = SpinnerUtils.getGenres();
+        ArrayAdapter<String> genresAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, genres);
+        allBooksGenreSpinner.setAdapter(genresAdapter);
+
+        allBooksGenreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Utils.fetchBooks(BookType.AllBooks, Genre.valueOf(TextUtils.join("_", genres.get(position).toUpperCase().split(" "))));
+                booksRecViewAdapter.setBookList(Utils.getBookList(BookType.AllBooks));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         booksRecViewAdapter = new BooksRecViewAdapter(this, ActivityType.AllBooksActivity);
         booksRecView = findViewById(R.id.booksRecView);
         booksRecView.setAdapter(booksRecViewAdapter);
         booksRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        Utils.fetchBooks(BookType.AllBooks);
+        Utils.fetchBooks(BookType.AllBooks, Genre.ALL);
         booksRecViewAdapter.setBookList(Utils.getBookList(BookType.AllBooks));
     }
 
@@ -78,7 +104,8 @@ public class AllBooksActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.fetchBooks(BookType.AllBooks);
+        Utils.fetchBooks(BookType.AllBooks, Genre.ALL);
         booksRecViewAdapter.setBookList(Utils.getBookList(BookType.AllBooks));
+        allBooksGenreSpinner.setSelection(0);
     }
 }

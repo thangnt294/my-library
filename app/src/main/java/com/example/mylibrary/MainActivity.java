@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.mylibrary.utils.SpinnerUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
         initButtonOnClick();
 
-        // Instantiating the Utils class for the first time, in order to avoid null pointer exceptions
+        // Instantiating the Utils classes for the first time, in order to avoid null pointer exceptions
         Utils.getInstance(this);
+        SpinnerUtils.getInstance();
     }
 
     private void initButtonOnClick() {

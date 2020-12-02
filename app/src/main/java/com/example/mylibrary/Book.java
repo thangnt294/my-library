@@ -8,9 +8,10 @@ public class Book {
     private String imageUrl;
     private String shortDesc;
     private String longDesc;
+    private String genre;
     private boolean isExpanded;
 
-    public Book(int id, String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public Book(int id, String title, String author, int pages, String imageUrl, String shortDesc, String longDesc, String genre) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -18,16 +19,18 @@ public class Book {
         this.imageUrl = imageUrl;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
+        this.genre = genre;
         this.isExpanded = false;
     }
 
-    public Book(String title, String author, int pages, String imageUrl, String shortDesc, String longDesc) {
+    public Book(String title, String author, int pages, String imageUrl, String shortDesc, String longDesc, String genre) {
         this.title = title;
         this.author = author;
         this.pages = pages;
         this.imageUrl = imageUrl;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
+        this.genre = genre;
         this.isExpanded = false;
     }
 
@@ -87,6 +90,14 @@ public class Book {
         this.longDesc = longDesc;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
     public boolean isExpanded() {
         return isExpanded;
     }
@@ -105,6 +116,7 @@ public class Book {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", shortDesc='" + shortDesc + '\'' +
                 ", longDesc='" + longDesc + '\'' +
+                ". genre='" + genre + '\'' +
                 '}';
     }
 }
