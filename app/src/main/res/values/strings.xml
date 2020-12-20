@@ -45,5 +45,9 @@
     <string name="delete_success">This book has been deleted</string>
 
     <string name="no_data">No Data</string>
+    <string name="replay">Replay</string>
+    <string name="play">Play</string>
+    <string name="record">Record</string>
+    <string name="book_image">Book Image</string>
 
 </resources>
