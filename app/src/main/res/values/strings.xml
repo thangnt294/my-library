@@ -39,11 +39,14 @@
     <string name="long_desc_add">Long description</string>
     <string name="genre_add">Genre:</string>
 
+    <!-- Toast messages -->
     <string name="general_error">Something went wrong. Please try again later.</string>
     <string name="update_success">Updated successfully</string>
     <string name="add_success">You added a new book</string>
     <string name="delete_success">This book has been deleted</string>
+    <string name="stop_playing_first">Please stop playing first</string>
 
+    <!-- General -->
     <string name="no_data">No Data</string>
     <string name="replay">Replay</string>
     <string name="play">Play</string>

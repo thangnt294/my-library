@@ -1,8 +1,10 @@
 package com.example.myLibrary;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.myLibrary.constants.ActivityType;
@@ -53,6 +56,8 @@ public class BookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
+
+        // TODO Check For Permissions
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -320,7 +325,7 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isPlaying) {
-                    // TODO throw some error or warning
+                    Toast.makeText(BookActivity.this, R.string.stop_playing_first, Toast.LENGTH_SHORT).show();
                 } else {
                     mediaPlayer.seekTo(0);
                     mediaPlayer.start();
@@ -374,14 +379,20 @@ public class BookActivity extends AppCompatActivity {
         btnReplay = findViewById(R.id.btnReplay);
 
         imgBookInfo = findViewById(R.id.imgBookInfo);
+        if (ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            btnPlay.setVisibility(View.VISIBLE);
+            btnRecord.setVisibility(View.VISIBLE);
+            btnReplay.setVisibility(View.VISIBLE);
+            mediaRecorder = new MediaRecorder();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.setOutputFile(file);
 
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        mediaRecorder.setOutputFile(file);
+            mediaPlayer = new MediaPlayer();
 
-        mediaPlayer = new MediaPlayer();
+        }
     }
 
     private void reloadDataByBookId(int bookId) {
@@ -393,6 +404,10 @@ public class BookActivity extends AppCompatActivity {
             handleFavoriteBooks(bookId);
             handleEditBook(bookId);
             handleDeleteBook(bookId);
+
+            handleRecord();
+            handlePlay();
+            handleReplay();
             if (book != null) {
                 setData(book);
             }
