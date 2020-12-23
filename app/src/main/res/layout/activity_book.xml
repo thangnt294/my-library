@@ -252,7 +252,6 @@
                 android:clickable="true"
                 android:contentDescription="@string/replay"
                 android:focusable="true"
-                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/btnPlay"
                 app:layout_constraintTop_toTopOf="@+id/btnPlay"
                 app:srcCompat="@drawable/ic_replay" />
@@ -266,7 +265,6 @@
                 android:clickable="true"
                 android:contentDescription="@string/play"
                 android:focusable="true"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
                 app:layout_constraintStart_toStartOf="@+id/guideline3"
@@ -282,7 +280,6 @@
                 android:clickable="true"
                 android:contentDescription="@string/record"
                 android:focusable="true"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/btnPlay"
                 app:layout_constraintEnd_toStartOf="@+id/btnPlay"
                 app:layout_constraintTop_toTopOf="@+id/btnPlay"

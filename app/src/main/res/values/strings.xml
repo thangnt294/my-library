@@ -45,6 +45,8 @@
     <string name="add_success">You added a new book</string>
     <string name="delete_success">This book has been deleted</string>
     <string name="stop_playing_first">Please stop playing first</string>
+    <string name="require_permission">This functionality requires your permissions to work</string>
+    <string name="permission_granted">Permission granted</string>
 
     <!-- General -->
     <string name="no_data">No Data</string>

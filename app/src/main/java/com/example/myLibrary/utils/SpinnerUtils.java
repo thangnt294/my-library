@@ -47,7 +47,9 @@ public class SpinnerUtils {
     }
 
     public static ArrayList<String> getGenres() {
-        genres.clear();
+        if (genres != null) {
+            genres.clear();
+        }
         populateGenres();
         return genres;
     }

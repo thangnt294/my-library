@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
@@ -37,9 +38,11 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BookActivity extends AppCompatActivity {
+    private static final int AUDIO_PERMISSION_CODE = 1;
 
     public static final String BOOK_ID_KEY = "bookId";
-    private String file;
+
+    private static String file;
     private boolean isRecording = false;
     private boolean isPlaying = false;
 
@@ -56,8 +59,6 @@ public class BookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-
-        // TODO Check For Permissions
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -278,19 +279,25 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO override on old file warning
-                if (isRecording) {
-                    mediaRecorder.stop();
-                    mediaRecorder.release();
-                    btnRecord.setImageResource(R.drawable.ic_mic);
-                    isRecording = false;
+                if (ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestRecordPermissions();
                 } else {
-                    try {
-                        mediaRecorder.prepare();
-                        mediaRecorder.start();
-                        btnRecord.setImageResource(R.drawable.ic_stop);
-                        isRecording = true;
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (isRecording) {
+                        mediaRecorder.stop();
+                        mediaRecorder.release();
+                        btnRecord.setImageResource(R.drawable.ic_mic);
+                        isRecording = false;
+                    } else {
+                        try {
+                            mediaRecorder.prepare();
+                            mediaRecorder.start();
+                            btnRecord.setImageResource(R.drawable.ic_stop);
+                            isRecording = true;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -301,19 +308,25 @@ public class BookActivity extends AppCompatActivity {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPlaying) {
-                    mediaPlayer.pause();
-                    btnPlay.setImageResource(R.drawable.ic_play);
-                    isPlaying = false;
+                if (ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestRecordPermissions();
                 } else {
-                    try {
-                        mediaPlayer.setDataSource(file);
-                        mediaPlayer.prepare();
-                        mediaPlayer.start();
-                        btnPlay.setImageResource(R.drawable.ic_pause);
-                        isPlaying = true;
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (isPlaying) {
+                        mediaPlayer.pause();
+                        btnPlay.setImageResource(R.drawable.ic_play);
+                        isPlaying = false;
+                    } else {
+                        try {
+                            mediaPlayer.setDataSource(file);
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                            btnPlay.setImageResource(R.drawable.ic_pause);
+                            isPlaying = true;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -324,13 +337,19 @@ public class BookActivity extends AppCompatActivity {
         btnReplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPlaying) {
-                    Toast.makeText(BookActivity.this, R.string.stop_playing_first, Toast.LENGTH_SHORT).show();
+                if (ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestRecordPermissions();
                 } else {
-                    mediaPlayer.seekTo(0);
-                    mediaPlayer.start();
-                    btnPlay.setImageResource(R.drawable.ic_pause);
-                    isPlaying = true;
+                    if (isPlaying) {
+                        Toast.makeText(BookActivity.this, R.string.stop_playing_first, Toast.LENGTH_SHORT).show();
+                    } else {
+                        mediaPlayer.seekTo(0);
+                        mediaPlayer.start();
+                        btnPlay.setImageResource(R.drawable.ic_pause);
+                        isPlaying = true;
+                    }
                 }
             }
         });
@@ -379,20 +398,7 @@ public class BookActivity extends AppCompatActivity {
         btnReplay = findViewById(R.id.btnReplay);
 
         imgBookInfo = findViewById(R.id.imgBookInfo);
-        if (ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(BookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            btnPlay.setVisibility(View.VISIBLE);
-            btnRecord.setVisibility(View.VISIBLE);
-            btnReplay.setVisibility(View.VISIBLE);
-            mediaRecorder = new MediaRecorder();
-            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mediaRecorder.setOutputFile(file);
 
-            mediaPlayer = new MediaPlayer();
-
-        }
     }
 
     private void reloadDataByBookId(int bookId) {
@@ -412,6 +418,29 @@ public class BookActivity extends AppCompatActivity {
                 setData(book);
             }
         }
+    }
+
+    private void requestRecordPermissions() {
+        ActivityCompat.requestPermissions(BookActivity.this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, AUDIO_PERMISSION_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == AUDIO_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(BookActivity.this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
+                mediaRecorder = new MediaRecorder();
+                mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mediaRecorder.setOutputFile(file);
+
+                mediaPlayer = new MediaPlayer();
+            } else {
+                Toast.makeText(BookActivity.this, R.string.require_permission, Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @Override
