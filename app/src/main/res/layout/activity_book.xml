@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,9 +19,10 @@
                 android:id="@+id/imgBookInfo"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="48dp"
                 android:contentDescription="@string/image_url_add"
-                app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -197,12 +198,10 @@
                 app:icon="@drawable/ic_edit_white"
 
                 app:layout_constraintBottom_toBottomOf="@+id/btnAddToWishListBooks"
-                app:layout_constraintEnd_toEndOf="@+id/imgBookInfo"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/imgBookInfo"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/imgBookInfo"
                 app:layout_constraintVertical_bias="1.0"
-                app:strokeColor="@color/teal_200" />
+                app:strokeColor="@color/colorPrimary" />
 
             <Button
                 android:id="@+id/btn_delete"
@@ -243,47 +242,30 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
                 app:layout_constraintTop_toTopOf="@+id/textView2" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnReplay"
+            <Chronometer
+                android:id="@+id/record_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
-                android:clickable="true"
-                android:contentDescription="@string/replay"
-                android:focusable="true"
-                app:layout_constraintStart_toEndOf="@+id/btnPlay"
-                app:layout_constraintTop_toTopOf="@+id/btnPlay"
-                app:srcCompat="@drawable/ic_replay" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnPlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                android:clickable="true"
-                android:contentDescription="@string/play"
-                android:focusable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/open_sans_light"
+                android:textColor="@color/colorDarkBlue"
+                android:textSize="26sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/txtLongDescInfo"
-                app:srcCompat="@drawable/ic_play" />
+                app:layout_constraintHorizontal_bias="0.652"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnRecord"
+            <ImageButton
+                android:id="@+id/record_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="50dp"
-                android:layout_marginRight="50dp"
-                android:clickable="true"
+                android:layout_marginTop="24dp"
+                android:background="@android:color/white"
                 android:contentDescription="@string/record"
-                android:focusable="true"
-                app:layout_constraintBottom_toBottomOf="@+id/btnPlay"
-                app:layout_constraintEnd_toStartOf="@+id/btnPlay"
-                app:layout_constraintTop_toTopOf="@+id/btnPlay"
-                app:srcCompat="@drawable/ic_mic" />
+                android:src="@drawable/record_btn_stopped2"
+                app:layout_constraintEnd_toEndOf="@+id/record_timer"
+                app:layout_constraintStart_toStartOf="@+id/record_timer"
+                app:layout_constraintTop_toBottomOf="@+id/record_timer" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -314,5 +296,6 @@
             android:textSize="24sp" />
     </RelativeLayout>
 
+    <include layout="@layout/player_sheet" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

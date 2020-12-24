@@ -8,12 +8,16 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +33,7 @@ import com.bumptech.glide.Glide;
 import com.example.myLibrary.constants.ActivityType;
 import com.example.myLibrary.constants.BookType;
 import com.example.myLibrary.constants.Genre;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,13 +46,28 @@ public class BookActivity extends AppCompatActivity {
 
     public static final String BOOK_ID_KEY = "bookId";
 
+    private ConstraintLayout playerSheet;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private ImageButton playBtn;
+    private ImageButton recordBtn;
+    private ImageButton forwardBtn;
+    private ImageButton rewindBtn;
+    private TextView playerHeaderTitle;
+    private TextView playerHeaderName;
+
+    private SeekBar playerSeekbar;
+    private Handler seekbarHandler;
+    private Runnable updateSeekbar;
+
+    private Chronometer timer;
+
     private static String file;
     private boolean isRecording = false;
     private boolean isPlaying = false;
+    private boolean isPausing = false;
 
     private TextView txtBookTitleInfo, txtAuthorNameInfo, txtPagesInfo, txtGenreInfo, txtLongDescInfo;
     private Button btnAddToWishListBooks, btnAddToReadingBooks, btnAddToFinishedBooks, btnAddToFavoriteBooks, btnEdit, btnDelete;
-    private FloatingActionButton btnRecord, btnPlay, btnReplay;
     private ConstraintLayout bookLayout;
     private RelativeLayout emptyLayout;
     private ImageView imgBookInfo;
@@ -63,6 +82,39 @@ public class BookActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         initViews();
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                //We cant do anything here for this app
+            }
+        });
+
+        playerSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                pauseAudio();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int progress = seekBar.getProgress();
+                mediaPlayer.seekTo(progress);
+                resumeAudio();
+            }
+        });
 
         // Get the book from BooksRecViewAdapter
         int bookId = -1;
@@ -236,10 +288,10 @@ public class BookActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BookActivity.this, EditBookActivity.class);
-                intent.putExtra(EditBookActivity.ACTIVITY_TYPE, ActivityType.UpdateBookActivity);
-                intent.putExtra(BOOK_ID_KEY, bookId);
-                startActivityForResult(intent, 1);
+                    Intent intent = new Intent(BookActivity.this, EditBookActivity.class);
+                    intent.putExtra(EditBookActivity.ACTIVITY_TYPE, ActivityType.UpdateBookActivity);
+                    intent.putExtra(BOOK_ID_KEY, bookId);
+                    startActivityForResult(intent, 1);
             }
         });
     }
@@ -248,44 +300,21 @@ public class BookActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(BookActivity.this);
-                builder.setMessage(R.string.delete_confirm)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
-                                long result = myDB.deleteData(bookId);
-
-                                if (result != -1) {
-                                    Toast.makeText(BookActivity.this, R.string.delete_success, Toast.LENGTH_SHORT).show();
-                                    bookLayout.setVisibility(View.GONE);
-                                    emptyLayout.setVisibility(View.VISIBLE);
-                                } else {
-                                    Toast.makeText(BookActivity.this, R.string.general_error, Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Auto-dismiss the dialog
-                    }
-                }).create().show();
-            }
-        });
-    }
-
-    private void handleRecord() {
-        btnRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO override on old file warning
-                if (checkPermissions()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(BookActivity.this);
-                    builder.setMessage(R.string.overwrite_current_audio)
+                    builder.setMessage(R.string.delete_confirm)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startRecording();
+                                    MyDatabaseHelper myDB = new MyDatabaseHelper(BookActivity.this);
+                                    long result = myDB.deleteData(bookId);
+
+                                    if (result != -1) {
+                                        Toast.makeText(BookActivity.this, R.string.delete_success, Toast.LENGTH_SHORT).show();
+                                        bookLayout.setVisibility(View.GONE);
+                                        emptyLayout.setVisibility(View.VISIBLE);
+                                    } else {
+                                        Toast.makeText(BookActivity.this, R.string.general_error, Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         @Override
@@ -293,10 +322,42 @@ public class BookActivity extends AppCompatActivity {
                             // Auto-dismiss the dialog
                         }
                     }).create().show();
+                }
+        });
+    }
+
+    private void handleRecord() {
+        recordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkPermissions()) {
                     if (isRecording) {
                         stopRecording();
-                    } else {
-                        startRecording();
+                        recordBtn.setImageResource(R.drawable.record_btn_stopped2);
+                        isRecording = false;
+                    } else  {
+                        File fileExist = new File(file);
+                        if(fileExist.exists()) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(BookActivity.this);
+                            builder.setMessage(R.string.overwrite_current_audio)
+                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startRecording();
+                                            recordBtn.setImageResource(R.drawable.record_btn_recording2);
+                                            isRecording = true;
+                                        }
+                                    }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Auto-dismiss the dialog
+                                }
+                            }).create().show();
+                        } else {
+                            startRecording();
+                            recordBtn.setImageResource(R.drawable.record_btn_recording2);
+                            isRecording = true;
+                        }
                     }
                 } else {
                     requestRecordPermissions();
@@ -306,31 +367,17 @@ public class BookActivity extends AppCompatActivity {
     }
 
     private void handlePlay() {
-        btnPlay.setOnClickListener(new View.OnClickListener() {
+        playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkPermissions()) {
                     if (isPlaying) {
-                        mediaPlayer.pause();
-                        btnPlay.setImageResource(R.drawable.ic_play);
-                        isPlaying = false;
+                        pauseAudio();
                     } else {
-                        try {
-                            mediaPlayer = new MediaPlayer();
-                            mediaPlayer.setDataSource(file);
-                            mediaPlayer.prepare();
-                            mediaPlayer.start();
-                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                @Override
-                                public void onCompletion(MediaPlayer mp) {
-                                    btnPlay.setImageResource(R.drawable.ic_play);
-                                    isPlaying = false;
-                                }
-                            });
-                            btnPlay.setImageResource(R.drawable.ic_pause);
-                            isPlaying = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if (isPausing) {
+                            resumeAudio();
+                        } else {
+                            playAudio(file);
                         }
                     }
                 } else {
@@ -340,27 +387,11 @@ public class BookActivity extends AppCompatActivity {
         });
     }
 
-    private void handleReplay() {
-        btnReplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkPermissions()) {
-                    if (isPlaying) {
-                        Toast.makeText(BookActivity.this, R.string.stop_playing_first, Toast.LENGTH_SHORT).show();
-                    } else {
-                        mediaPlayer.seekTo(0);
-                        mediaPlayer.start();
-                        btnPlay.setImageResource(R.drawable.ic_pause);
-                        isPlaying = true;
-                    }
-                } else {
-                    requestRecordPermissions();
-                }
-            }
-        });
-    }
-
     private void startRecording() {
+        //Start timer from 0
+        timer.setBase(SystemClock.elapsedRealtime());
+        timer.start();
+
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -368,20 +399,122 @@ public class BookActivity extends AppCompatActivity {
         mediaRecorder.setOutputFile(file);
         try {
             mediaRecorder.prepare();
-            mediaRecorder.start();
-            btnRecord.setImageResource(R.drawable.ic_stop);
-            isRecording = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        mediaRecorder.start();
     }
 
     private void stopRecording() {
+        timer.stop();
         mediaRecorder.stop();
         mediaRecorder.release();
-        btnRecord.setImageResource(R.drawable.ic_mic);
-        isRecording = false;
         mediaRecorder = null;
+    }
+
+    private void pauseAudio() {
+        mediaPlayer.pause();
+        playBtn.setImageResource(R.drawable.player_play_btn);
+        isPlaying = false;
+        isPausing = true;
+        seekbarHandler.removeCallbacks(updateSeekbar);
+    }
+
+    private void resumeAudio() {
+        mediaPlayer.start();
+        playBtn.setImageResource(R.drawable.player_pause_btn);
+        isPlaying = true;
+        isPausing = false;
+
+        updateRunnable();
+        seekbarHandler.postDelayed(updateSeekbar, 0);
+
+    }
+
+    private void stopAudio() {
+        playBtn.setImageResource(R.drawable.player_play_btn);
+        playerHeaderTitle.setText(R.string.stopped);
+        isPlaying = false;
+        mediaPlayer.stop();
+        seekbarHandler.removeCallbacks(updateSeekbar);
+    }
+
+    private void playAudio(String file) {
+        mediaPlayer = new MediaPlayer();
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        try {
+            mediaPlayer.setDataSource(file);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        playBtn.setImageResource(R.drawable.player_pause_btn);
+        playerHeaderTitle.setText(R.string.playing);
+        //Play the audio
+        isPlaying = true;
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopAudio();
+                playerHeaderTitle.setText(R.string.finished);
+                mediaPlayer = null;
+            }
+        });
+
+        playerSeekbar.setMax(mediaPlayer.getDuration());
+
+        seekbarHandler = new Handler();
+        updateRunnable();
+        seekbarHandler.postDelayed(updateSeekbar, 0);
+
+    }
+
+    private void handleForwardBtn() {
+        forwardBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                if (mediaPlayer != null) {
+                    int currentPosition = mediaPlayer.getCurrentPosition();
+                    mediaPlayer.seekTo(Math.min(currentPosition + 5000, mediaPlayer.getDuration()));
+                }
+            }
+        });
+    }
+
+    private void handleRewindBtn() {
+        rewindBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                if (mediaPlayer != null) {
+                    int currentPosition = mediaPlayer.getCurrentPosition();
+                    mediaPlayer.seekTo(Math.max(currentPosition - 5000, 0));
+                }
+            }
+        });
+    }
+
+
+    private void updateRunnable() {
+        updateSeekbar = new Runnable() {
+            @Override
+            public void run() {
+                playerSeekbar.setProgress(mediaPlayer.getCurrentPosition());
+                seekbarHandler.postDelayed(this, 500);
+            }
+        };
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isPlaying) {
+            stopAudio();
+        }
     }
 
     /**
@@ -402,6 +535,7 @@ public class BookActivity extends AppCompatActivity {
                 .into(imgBookInfo);
         String FILE_NAME = book.getTitle() + ".3gp";
         file = BookActivity.this.getExternalFilesDir("/").getAbsolutePath() + File.separator + FILE_NAME;
+        playerHeaderName.setText(book.getTitle());
     }
 
     private void initViews() {
@@ -422,9 +556,18 @@ public class BookActivity extends AppCompatActivity {
         btnEdit = findViewById(R.id.btn_edit);
         btnDelete = findViewById(R.id.btn_delete);
 
-        btnRecord = findViewById(R.id.btnRecord);
-        btnPlay = findViewById(R.id.btnPlay);
-        btnReplay = findViewById(R.id.btnReplay);
+        recordBtn = findViewById(R.id.record_btn);
+        timer = findViewById(R.id.record_timer);
+
+        playerSheet = findViewById(R.id.player_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(playerSheet);
+        playBtn = findViewById(R.id.player_play_btn);
+        forwardBtn = findViewById(R.id.forward_btn);
+        rewindBtn = findViewById(R.id.rewind_btn);
+        playerHeaderTitle = findViewById(R.id.player_header_title);
+        playerHeaderName = findViewById(R.id.player_header_name);
+
+        playerSeekbar = findViewById(R.id.player_seekbar);
 
         imgBookInfo = findViewById(R.id.imgBookInfo);
 
@@ -442,7 +585,8 @@ public class BookActivity extends AppCompatActivity {
 
             handleRecord();
             handlePlay();
-            handleReplay();
+            handleForwardBtn();
+            handleRewindBtn();
             if (book != null) {
                 setData(book);
             }
@@ -463,12 +607,31 @@ public class BookActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(BookActivity.this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
                 startRecording();
+                recordBtn.setImageResource(R.drawable.record_btn_recording2);
+                isRecording = true;
             } else {
                 Toast.makeText(BookActivity.this, R.string.require_permission, Toast.LENGTH_SHORT).show();
             }
         }
 
     }
+
+    private void onLeaveAudioPlaying() {
+        if (isRecording) {
+            android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(BookActivity.this);
+            alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    isRecording = false;
+                }
+            });
+            alertDialog.setNegativeButton(R.string.no, null);
+            alertDialog.setTitle("Audio still recording");
+            alertDialog.setMessage("Are you sure you want to stop the recording?");
+            alertDialog.create().show();
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
