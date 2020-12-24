@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mylibrary">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.myLibrary">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookManagement">
-        <activity android:name=".EditBookActivity"></activity>
-        <activity android:name=".WebsiteActivity" />
+        <activity android:name="com.example.myLibrary.EditBookActivity" />
+        <activity android:name="com.example.myLibrary.WebsiteActivity" />
         <activity
-            android:name=".FavoriteBooksActivity"
+            android:name="com.example.myLibrary.FavoriteBooksActivity"
             android:label="@string/favorite_books" />
         <activity
-            android:name=".ReadingBooksActivity"
+            android:name="com.example.myLibrary.ReadingBooksActivity"
             android:label="@string/reading_books" />
         <activity
-            android:name=".WishListBooksActivity"
+            android:name="com.example.myLibrary.WishListBooksActivity"
             android:label="@string/wish_list" />
         <activity
-            android:name=".FinishedBooksActivity"
+            android:name="com.example.myLibrary.FinishedBooksActivity"
             android:label="@string/finished_books" />
         <activity
-            android:name=".BookActivity"
+            android:name="com.example.myLibrary.BookActivity"
             android:label="@string/book_details" />
         <activity
-            android:name=".AllBooksActivity"
+            android:name="com.example.myLibrary.AllBooksActivity"
             android:label="@string/all_books" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.myLibrary.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
